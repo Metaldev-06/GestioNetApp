@@ -1,0 +1,51 @@
+<section class="login__container">
+  <article class="login__menu">
+    <div class="sidebar__logo">Gestio <span>Net</span></div>
+
+    <h1>Iniciar Sesión</h1>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <label tuiLabel class="tui-space_bottom-4">
+        <tui-input
+          formControlName="email"
+          tuiTextfieldSize="m"
+          [tuiTextfieldCleaner]="true"
+        >
+          Email
+          <input
+            autocomplete="email"
+            tuiTextfieldLegacy
+            type="email"
+            [autocomplete]="false"
+          />
+        </tui-input>
+        <tui-error
+          formControlName="email"
+          [error]="[''] | tuiFieldError | async"
+        />
+      </label>
+
+      <label tuiLabel class="tui-space_bottom-4">
+        <tui-input
+          formControlName="password"
+          tuiTextfieldSize="m"
+          [tuiTextfieldCleaner]="true"
+        >
+          Contraseña
+          <input
+            autocomplete="password"
+            tuiTextfieldLegacy
+            type="password"
+            [autocomplete]="false"
+          />
+        </tui-input>
+        <tui-error
+          formControlName="password"
+          [error]="[''] | tuiFieldError | async"
+        />
+      </label>
+
+      <button type="submit">Acceder</button>
+    </form>
+  </article>
+</section>

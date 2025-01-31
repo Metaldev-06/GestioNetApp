@@ -1,0 +1,51 @@
+<section class="layout__container">
+  <aside class="sidebar">
+    <div class="sidebar__content">
+      <div class="sidebar__logo" [routerLink]="''">Gestio <span>Net</span></div>
+
+      <div class="sidebar__menu">
+        <div class="individual__menu">
+          <a [routerLink]="''" routerLinkActive="active">
+            <i class="pi pi-home"></i> Dashboard</a
+          >
+        </div>
+
+        <div class="group__menu--content">
+          <div class="group__menu--title">Contenido</div>
+
+          <div class="group__menu--content">
+            @for (item of menuItems; track $index) {
+              <a [routerLink]="item.link" routerLinkActive="active">
+                <i [class]="item.icon"></i> {{ item.title | titlecase }}</a
+              >
+            }
+          </div>
+        </div>
+
+        <div class="individual__menu">
+          <div class="group__menu--title">Configuración</div>
+          <a [routerLink]="'/settings'" routerLinkActive="active">
+            <i class="pi pi-cog"></i> Cuenta</a
+          >
+        </div>
+      </div>
+
+      <div class="sidebar__footer">
+        <button><i class="pi pi-sign-out"></i> Cerrar Sesión</button>
+      </div>
+    </div>
+  </aside>
+
+  <header class="header">
+    <div class="header__content">
+      <div class="title__header">Dashboard</div>
+      <div>
+        Bienvenido, <strong>{{ user().firstName }}</strong>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <ng-content />
+  </main>
+</section>

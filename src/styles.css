@@ -1,1 +1,49 @@
 /* You can add global styles to this file, and also import other style files */
+@import "primeicons/primeicons.css";
+:root {
+  /*! Colors */
+  --background-color: #eef0f6;
+  --black-color: #09090b;
+  --gray-color: #f4f4f5;
+  --gray-color-strong: #71717a;
+
+  --tui-background-base: var(--background-color);
+}
+
+@font-face {
+  font-family: "Geist";
+  src: url("/fonts/Geist-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Geist";
+  src: url("/fonts/Geist-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Geist";
+  src: url("/fonts/Geist-ExtraBold.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--black-color);
+  font-family: "Geist", sans-serif, Arial, Helvetica;
+}
+
+.gradient {
+  background: #71b3ff;
+  background: linear-gradient(45deg, #71b3ff, #439cff);
+}
