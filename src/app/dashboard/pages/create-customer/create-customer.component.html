@@ -1,0 +1,107 @@
+<section class="login__container">
+  <article class="login__menu">
+    <h1>Agregar Cliente</h1>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form__flex">
+        <label tuiLabel class="tui-space_bottom-4">
+          <tui-input
+            formControlName="name"
+            tuiTextfieldSize="m"
+            [tuiTextfieldCleaner]="true"
+          >
+            Nombre <span>*</span>
+            <input tuiTextfieldLegacy type="text" [autocomplete]="false" />
+          </tui-input>
+          <tui-error
+            formControlName="name"
+            [error]="[''] | tuiFieldError | async"
+          />
+        </label>
+
+        <label tuiLabel class="tui-space_bottom-4">
+          <tui-input
+            formControlName="dni"
+            tuiTextfieldSize="m"
+            [tuiTextfieldCleaner]="true"
+          >
+            DNI
+            <input tuiTextfieldLegacy type="text" [autocomplete]="false" />
+          </tui-input>
+          <tui-error
+            formControlName="dni"
+            [error]="[''] | tuiFieldError | async"
+          />
+        </label>
+      </div>
+
+      <label tuiLabel class="tui-space_bottom-4">
+        <tui-input
+          formControlName="address"
+          tuiTextfieldSize="m"
+          [tuiTextfieldCleaner]="true"
+        >
+          Dirección
+          <input tuiTextfieldLegacy type="text" [autocomplete]="false" />
+        </tui-input>
+        <tui-error
+          formControlName="address"
+          [error]="[''] | tuiFieldError | async"
+        />
+      </label>
+
+      <div class="form__flex">
+        <label tuiLabel class="tui-space_bottom-4">
+          <tui-input
+            formControlName="email"
+            tuiTextfieldSize="m"
+            [tuiTextfieldCleaner]="true"
+          >
+            Email
+            <input
+              autocomplete="email"
+              tuiTextfieldLegacy
+              type="email"
+              [autocomplete]="false"
+            />
+          </tui-input>
+          <tui-error
+            formControlName="email"
+            [error]="[''] | tuiFieldError | async"
+          />
+        </label>
+
+        <label tuiLabel class="tui-space_bottom-4">
+          <tui-input
+            formControlName="city"
+            tuiTextfieldSize="m"
+            [tuiTextfieldCleaner]="true"
+          >
+            Ciudad
+            <input tuiTextfieldLegacy type="city" [autocomplete]="false" />
+          </tui-input>
+          <tui-error
+            formControlName="city"
+            [error]="[''] | tuiFieldError | async"
+          />
+        </label>
+
+        <label tuiLabel class="tui-space_bottom-4">
+          <tui-input
+            formControlName="phone"
+            tuiTextfieldSize="m"
+            [tuiTextfieldCleaner]="true"
+          >
+            Teléfono
+            <input tuiTextfieldLegacy type="phone" [autocomplete]="false" />
+          </tui-input>
+          <tui-error
+            formControlName="phone"
+            [error]="[''] | tuiFieldError | async"
+          />
+        </label>
+      </div>
+      <button type="submit">Crear</button>
+    </form>
+  </article>
+</section>

@@ -5,7 +5,11 @@
 
       <div class="sidebar__menu">
         <div class="individual__menu">
-          <a [routerLink]="''" routerLinkActive="active">
+          <a
+            [routerLink]="''"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
             <i class="pi pi-home"></i> Dashboard</a
           >
         </div>
@@ -15,7 +19,11 @@
 
           <div class="group__menu--content">
             @for (item of menuItems; track $index) {
-              <a [routerLink]="item.link" routerLinkActive="active">
+              <a
+                [routerLink]="item.link"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+              >
                 <i [class]="item.icon"></i> {{ item.title | titlecase }}</a
               >
             }

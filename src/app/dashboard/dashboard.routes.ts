@@ -11,8 +11,9 @@ export const DashboardRoutes: Routes = [
         loadComponent: () => import('./pages/home/home.component'),
       },
       {
-        path: 'customers',
-        loadComponent: () => import('./pages/customers/customers.component'),
+        path: 'create-customer',
+        loadComponent: () =>
+          import('./pages/create-customer/create-customer.component'),
       },
     ],
   },

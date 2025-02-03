@@ -25,7 +25,7 @@ export class LayoutComponent implements OnInit {
     {
       title: 'crear cliente',
       icon: 'pi pi-user-plus',
-      link: '/dashboard/create-client',
+      link: '/create-customer',
     },
     {
       title: 'ver clientes',
@@ -35,6 +35,11 @@ export class LayoutComponent implements OnInit {
     {
       title: 'reportes',
       icon: 'pi pi-chart-bar',
+      link: '/dashboard/create-client',
+    },
+    {
+      title: 'historial',
+      icon: 'pi pi-history',
       link: '/dashboard/create-client',
     },
   ];

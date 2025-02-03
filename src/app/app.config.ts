@@ -10,11 +10,12 @@ import {
   withComponentInputBinding,
   withViewTransitions,
 } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import localeEsAR from '@angular/common/locales/es-AR';
 import { registerLocaleData } from '@angular/common';
 
 import { routes } from './app.routes';
+import { jwtInterceptor } from './core/interceptors/jwt.interceptor';
 
 registerLocaleData(localeEsAR);
 
@@ -24,7 +25,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withViewTransitions(), withComponentInputBinding()),
     provideExperimentalZonelessChangeDetection(),
     provideAnimations(),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([jwtInterceptor])),
     {
       provide: LOCALE_ID,
       useValue: 'es-AR',
