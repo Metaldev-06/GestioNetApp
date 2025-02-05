@@ -1,8 +1,10 @@
 import { inject, Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
-import { CreateCustomerBody } from '../interfaces/create-customer.interface';
+import { HttpClient, HttpParams } from '@angular/common/http';
+
 import { Observable } from 'rxjs';
+
+import { environment } from '../../../environments/environment';
+import { CreateCustomerBody } from '../interfaces/create-customer.interface';
 import { CustomerResponse } from '../interfaces/customers-response.interface';
 
 @Injectable({
@@ -19,5 +21,13 @@ export class CustomerService {
       `${this.apiUrl}/customers`,
       customer,
     );
+  }
+
+  public getAllCustomers(): Observable<CustomerResponse> {
+    const params = new HttpParams().set('limit', '10');
+
+    return this.http.get<CustomerResponse>(`${this.apiUrl}/customers`, {
+      params,
+    });
   }
 }

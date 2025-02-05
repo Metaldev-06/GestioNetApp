@@ -6,6 +6,7 @@
   --black-color: #09090b;
   --gray-color: #f4f4f5;
   --gray-color-strong: #71717a;
+  --gray-color-input: #d6dae2;
 
   --tui-background-base: var(--background-color);
 }

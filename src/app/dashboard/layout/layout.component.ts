@@ -30,7 +30,7 @@ export class LayoutComponent implements OnInit {
     {
       title: 'ver clientes',
       icon: 'pi pi-users',
-      link: '/dashboard/create-client',
+      link: '/view-customers',
     },
     {
       title: 'reportes',

@@ -71,7 +71,6 @@ export default class CreateCustomerComponent implements OnInit {
   }
 
   createCustomer(customer: CreateCustomerBody): void {
-    console.log(customer);
     this.customerService.createCustomer(customer).subscribe({
       next: () => {
         this.alerts
@@ -79,7 +78,7 @@ export default class CreateCustomerComponent implements OnInit {
             label: `Cliente creado con éxito`,
             appearance: 'positive',
             closeable: true,
-            autoClose: 0,
+            autoClose: 5000,
           })
           .pipe(takeUntilDestroyed(this.destroyRef))
           .subscribe();
@@ -91,7 +90,7 @@ export default class CreateCustomerComponent implements OnInit {
             label: `${error.error.error}`,
             appearance: 'error',
             closeable: true,
-            autoClose: 0,
+            autoClose: 5000,
           })
           .pipe(takeUntilDestroyed(this.destroyRef))
           .subscribe();

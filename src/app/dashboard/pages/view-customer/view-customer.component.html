@@ -1,0 +1,28 @@
+<section class="customer__container">
+  <h1>Buscar por nombre o DNI/CUIT</h1>
+
+  <article class="customer__information">
+    <div class="customer__search">
+      <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+        <input
+          formControlName="search"
+          type="text"
+          placeholder="Precione ENTER para buscar"
+        />
+      </form>
+    </div>
+
+    <div class="customer__table">
+      @for (customer of customers(); track $index) {
+        <div class="customer__item">
+          <div>
+            {{ customer.name }}
+          </div>
+          <div class="customer__actions">
+            <button>Ver Cliente</button>
+          </div>
+        </div>
+      }
+    </div>
+  </article>
+</section>
