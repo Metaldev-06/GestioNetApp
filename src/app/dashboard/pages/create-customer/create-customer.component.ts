@@ -90,7 +90,7 @@ export default class CreateCustomerComponent implements OnInit {
             label: `${error.error.error}`,
             appearance: 'error',
             closeable: true,
-            autoClose: 5000,
+            autoClose: 0,
           })
           .pipe(takeUntilDestroyed(this.destroyRef))
           .subscribe();

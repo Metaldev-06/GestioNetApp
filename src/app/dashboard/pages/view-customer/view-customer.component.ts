@@ -2,7 +2,15 @@ import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { CustomerService } from '../../../core/services/customer.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Customer } from '../../../core/interfaces/customers-response.interface';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { TuiAlertService } from '@taiga-ui/core';
+import { noSpaceValidator } from '../../../core/helpers/noSpaceValidator.helper';
+import { ParamsFilter } from '../../../core/interfaces/params-filter.interface';
 
 @Component({
   selector: 'app-view-customer',
@@ -17,24 +25,44 @@ export default class ViewCustomerComponent implements OnInit {
   private readonly customerService = inject(CustomerService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly formBuilder = inject(FormBuilder);
+  private readonly alerts = inject(TuiAlertService);
 
   ngOnInit(): void {
     this.getAllCustomers();
     this.searchForm = this.initSearchForm();
   }
 
-  private getAllCustomers(): void {
+  public resetFilters(): void {
+    this.searchForm.reset();
+    this.getAllCustomers();
+  }
+
+  private getAllCustomers(paramsFilter?: ParamsFilter): void {
     this.customerService
-      .getAllCustomers()
+      .getAllCustomers(paramsFilter)
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((customers) => {
-        this.customers.set(customers.data);
+      .subscribe({
+        next: (response) => {
+          this.customers.set(response.data);
+        },
+        error: (error) => {
+          this.alerts
+            .open(`${error.error.message}`, {
+              label: `${error.error.error}`,
+              appearance: 'error',
+              closeable: true,
+              autoClose: 0,
+            })
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe();
+          console.log(error);
+        },
       });
   }
 
   private initSearchForm(): FormGroup {
     return this.formBuilder.group({
-      search: [''],
+      term: ['', [Validators.required, noSpaceValidator]],
     });
   }
 
@@ -43,7 +71,8 @@ export default class ViewCustomerComponent implements OnInit {
       return;
     }
 
-    console.log(this.searchForm.getRawValue());
-    //this.login(this.searchForm.getRawValue());
+    const term = this.searchForm.getRawValue().term.trim();
+
+    this.getAllCustomers({ term });
   }
 }

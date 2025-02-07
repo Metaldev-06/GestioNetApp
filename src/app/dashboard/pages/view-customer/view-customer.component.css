@@ -21,9 +21,13 @@
 
     .customer__search {
       width: 100%;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
 
       form {
         width: 100%;
+        flex-flow: 1;
 
         input {
           width: 100%;
@@ -40,6 +44,25 @@
             font-size: 1.1rem;
             color: rgba(113, 128, 150, 72);
           }
+        }
+      }
+
+      button {
+        flex-flow: 1;
+        padding: 1rem 1.3rem;
+        background-color: var(--black-color);
+        color: #fff;
+        font-weight: bold;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+
+        &:hover {
+          opacity: 0.8;
+        }
+
+        &:active {
+          transform: scale(0.9);
         }
       }
     }
@@ -81,6 +104,11 @@
             }
           }
         }
+      }
+
+      h2 {
+        text-align: center;
+        color: var(--gray-color-strong);
       }
     }
   }

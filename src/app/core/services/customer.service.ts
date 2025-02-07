@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { CreateCustomerBody } from '../interfaces/create-customer.interface';
 import { CustomerResponse } from '../interfaces/customers-response.interface';
+import { ParamsFilter } from '../interfaces/params-filter.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -23,8 +24,24 @@ export class CustomerService {
     );
   }
 
-  public getAllCustomers(): Observable<CustomerResponse> {
-    const params = new HttpParams().set('limit', '10');
+  public getAllCustomers(
+    paramsFilter?: ParamsFilter,
+  ): Observable<CustomerResponse> {
+    const { limit = 10, offset = 0, sort, order, term } = paramsFilter || {};
+
+    let params = new HttpParams().set('limit', limit).set('offset', offset);
+
+    if (sort) {
+      params = params.set('sort', sort);
+    }
+
+    if (order) {
+      params = params.set('order', order);
+    }
+
+    if (term) {
+      params = params.set('term', term);
+    }
 
     return this.http.get<CustomerResponse>(`${this.apiUrl}/customers`, {
       params,
