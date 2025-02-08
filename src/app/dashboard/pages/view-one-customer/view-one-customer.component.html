@@ -1,0 +1,21 @@
+<section class="customer__container">
+  <article class="customer__header">
+    <div class="customer__info">
+      <h1>{{ customer().name }}</h1>
+
+      <h2>
+        Saldo: <span>{{ customer().account?.balance | currency: "$" }}</span>
+      </h2>
+    </div>
+
+    <div class="customer__actions">
+      <button class="edit">Editar Cliente</button>
+      <button class="delete">Eliminar Cliente</button>
+    </div>
+  </article>
+
+  <article class="customer__transactions">
+    <div></div>
+    <div></div>
+  </article>
+</section>

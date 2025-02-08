@@ -8,6 +8,7 @@
           formControlName="term"
           type="text"
           placeholder="Precione ENTER para buscar"
+          maxlength="100"
         />
       </form>
 
@@ -44,15 +45,13 @@
             {{ customer.name }}
           </div>
           <div class="customer__actions">
-            <button>Ver Cliente</button>
+            <button [routerLink]="['/view-customers/', customer.id]">
+              Ver Cliente
+            </button>
           </div>
         </div>
       } @empty {
-        <h2>
-          No se encontraron resultados con: "{{
-            searchForm.getRawValue().term?.trim()
-          }}"
-        </h2>
+        <h2>No se encontraron resultados con: "{{ lastSearchTerm() }}"</h2>
       }
     </div>
   </article>

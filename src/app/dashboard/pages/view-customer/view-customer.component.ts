@@ -11,15 +11,17 @@ import {
 import { TuiAlertService } from '@taiga-ui/core';
 import { noSpaceValidator } from '../../../core/helpers/noSpaceValidator.helper';
 import { ParamsFilter } from '../../../core/interfaces/params-filter.interface';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-view-customer',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './view-customer.component.html',
   styleUrl: './view-customer.component.css',
 })
 export default class ViewCustomerComponent implements OnInit {
   public customers = signal<Customer[]>([]);
+  public lastSearchTerm = signal<string>('');
   public searchForm!: FormGroup;
 
   private readonly customerService = inject(CustomerService);
@@ -72,6 +74,7 @@ export default class ViewCustomerComponent implements OnInit {
     }
 
     const term = this.searchForm.getRawValue().term.trim();
+    this.lastSearchTerm.set(term);
 
     this.getAllCustomers({ term });
   }
