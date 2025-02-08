@@ -73,7 +73,6 @@ export default class ViewOneCustomerComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.transactions.set(response.transactions);
-          console.log(response);
         },
         error: (error) => {
           this.alerts
@@ -85,7 +84,7 @@ export default class ViewOneCustomerComponent implements OnInit {
             })
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe();
-          console.log(error);
+          console.error(error);
         },
       });
   }
@@ -115,7 +114,7 @@ export default class ViewOneCustomerComponent implements OnInit {
             })
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe();
-          console.log(error);
+          console.error(error);
         },
       });
   }
@@ -138,7 +137,7 @@ export default class ViewOneCustomerComponent implements OnInit {
             })
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe();
-          console.log(error);
+          console.error(error);
         },
       });
   }

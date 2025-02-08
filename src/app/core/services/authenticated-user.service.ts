@@ -1,6 +1,7 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { StorageService } from './storage.service';
 import { StoreUser } from '../interfaces/store-user.interface';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -39,6 +40,27 @@ export class AuthenticatedUserService {
 
   getUser(): StoreUser {
     return this._user();
+  }
+
+  isAuthenticated(): boolean {
+    const token = this._storage.get<string>('session');
+    if (!token) return false;
+
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const exp = payload.exp;
+
+    if (Date.now() >= exp * 1000) {
+      this.clearUser();
+      return false;
+    }
+
+    return true;
+  }
+
+  logout(): void {
+    this._storage.remove('session');
+    this._storage.remove('user');
+    this.clearUser();
   }
 
   clearUser(): void {

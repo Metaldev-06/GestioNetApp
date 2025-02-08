@@ -56,7 +56,7 @@
           >
           <span>{{ transaction.description }}</span>
           <span>{{ transaction.type }}</span>
-          <span class="date">{{ transaction.createdAt | date }}</span>
+          <span class="date">{{ transaction.createdAt | date: "medium" }}</span>
         </div>
       } @empty {
         <div class="empty__transactions">
