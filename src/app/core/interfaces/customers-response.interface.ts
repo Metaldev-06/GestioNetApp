@@ -22,6 +22,7 @@ export interface Account {
   debt: number;
   createdAt: Date;
   updatedAt: Date;
+  debtLimit: number;
 }
 
 export interface Pagination {

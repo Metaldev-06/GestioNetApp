@@ -3,19 +3,66 @@
     <div class="customer__info">
       <h1>{{ customer().name }}</h1>
 
-      <h2>
-        Saldo: <span>{{ customer().account?.balance | currency: "$" }}</span>
-      </h2>
+      @if (customer().account?.debt === 0) {
+        <h2>
+          Saldo:
+          <span class="positive">{{
+            customer().account.balance | currency: "$"
+          }}</span>
+        </h2>
+      } @else {
+        <h2>
+          Saldo:
+          <span class="negative"
+            >- {{ customer().account?.debt | currency: "$" }}</span
+          >
+        </h2>
+      }
+
+      <h3>
+        Límite de Débito:
+        <span>{{ customer().account?.debtLimit | currency: "$" }}</span>
+      </h3>
     </div>
 
     <div class="customer__actions">
       <button class="edit">Editar Cliente</button>
-      <button class="delete">Eliminar Cliente</button>
+      <button class="delete" (click)="deleteCustomer(customer().id)">
+        Eliminar Cliente
+      </button>
     </div>
   </article>
 
   <article class="customer__transactions">
-    <div></div>
-    <div></div>
+    <div class="month__transactions">
+      @for (item of transactionsDate().transactions; track $index) {
+        <div class="month__item" (click)="selectMonth(item.month, item.year)">
+          <span class="month">{{ item.month | monthName }}</span>
+          <span class="transactions">{{ item.transactionsTotal }}</span>
+        </div>
+      }
+    </div>
+
+    <div class="transactions__container">
+      @for (transaction of transactions(); track $index) {
+        <div class="transactions__item">
+          <span
+            class="amount"
+            [ngClass]="{
+              positive: transaction.amount > 0,
+              negative: transaction.amount < 0,
+            }"
+            >{{ transaction.amount | currency: "$" }}</span
+          >
+          <span>{{ transaction.description }}</span>
+          <span>{{ transaction.type }}</span>
+          <span class="date">{{ transaction.createdAt | date }}</span>
+        </div>
+      } @empty {
+        <div class="empty__transactions">
+          <span>No hay transacciones</span>
+        </div>
+      }
+    </div>
   </article>
 </section>

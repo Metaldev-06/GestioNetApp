@@ -1,6 +1,9 @@
 .customer__container {
   width: 95%;
   margin: 1.5rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 
   .customer__header {
     width: 100%;
@@ -18,7 +21,8 @@
         font-weight: bold;
       }
 
-      h2 {
+      h2,
+      h3 {
         font-size: 1.2rem;
         font-weight: normal;
 
@@ -38,7 +42,16 @@
         border: none;
         border-radius: 5px;
         font-weight: bold;
-        font-size: 1.1rem;
+        font-size: 1rem;
+        cursor: pointer;
+
+        &:hover {
+          opacity: 0.8;
+        }
+
+        &:active {
+          transform: scale(0.9);
+        }
       }
 
       .edit {
@@ -51,5 +64,103 @@
         color: white;
       }
     }
+  }
+
+  .customer__transactions {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+
+    div {
+      background-color: white;
+      border-radius: 10px;
+    }
+
+    .month__transactions {
+      width: 200px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      padding: 1rem;
+
+      .month__item {
+        width: 100%;
+        padding: 0.6rem;
+        box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+
+        .transactions {
+          padding: 0.2rem 0.4rem;
+          border-radius: 5px;
+          background: #5349dc;
+          background: linear-gradient(135deg, #5349dc, #7579e5);
+          color: white;
+          font-weight: 700;
+        }
+
+        &:hover {
+          background-color: #f9f9f9;
+        }
+
+        &:active {
+          transform: scale(0.98);
+        }
+      }
+    }
+
+    .transactions__container {
+      flex-grow: 1;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      overflow: hidden;
+
+      .transactions__item {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        align-items: center;
+        padding: 0.7rem;
+        border-radius: 5px;
+        box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+        border: 1px solid var(--gray-color);
+
+        .amount {
+          text-align: left;
+          font-weight: bold;
+        }
+
+        span {
+          text-align: center;
+          width: 100%;
+          max-width: 200px;
+        }
+
+        .date {
+          text-align: right;
+        }
+      }
+
+      .empty__transactions {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+
+  .negative {
+    color: red;
+  }
+
+  .positive {
+    color: #48bb78;
   }
 }

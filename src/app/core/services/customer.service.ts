@@ -60,4 +60,8 @@ export class CustomerService {
   public getCustomerById(id: string): Observable<Customer> {
     return this.http.get<Customer>(`${this.apiUrl}/customers/${id}`);
   }
+
+  public deleteCustomer(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/customers/${id}`);
+  }
 }
