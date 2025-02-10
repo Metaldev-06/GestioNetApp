@@ -40,17 +40,9 @@ export class CustomerService {
 
     let params = new HttpParams().set('limit', limit).set('offset', offset);
 
-    if (sort) {
-      params = params.set('sort', sort);
-    }
-
-    if (order) {
-      params = params.set('order', order);
-    }
-
-    if (term) {
-      params = params.set('term', term);
-    }
+    if (sort) params = params.set('sort', sort);
+    if (order) params = params.set('order', order);
+    if (term) params = params.set('term', term);
 
     return this.http.get<CustomerResponse>(`${this.apiUrl}/customers`, {
       params,

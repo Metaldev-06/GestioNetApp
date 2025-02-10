@@ -38,7 +38,14 @@
       </button>
     </div>
 
-    <div class="customer__table">
+    <div
+      class="customer__table"
+      infiniteScroll
+      [infiniteScrollDistance]="2"
+      [infiniteScrollThrottle]="50"
+      (scrolled)="onScroll()"
+      [scrollWindow]="false"
+    >
       @for (customer of customers(); track $index) {
         <div class="customer__item">
           <div>
