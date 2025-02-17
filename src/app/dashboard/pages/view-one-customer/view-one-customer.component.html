@@ -33,6 +33,20 @@
     </div>
   </article>
 
+  <article class="customer__details">
+    <div class="transactions__actions--year">
+      <form [formGroup]="testForm" (ngSubmit)="selectSubmit()">
+        <tui-select tuiTextfieldSize="s" formControlName="testValue">
+          Año
+          <input placeholder="Elija el año" tuiTextfieldLegacy />
+          <tui-data-list-wrapper *tuiDataList [items]="yearFilter()" />
+        </tui-select>
+      </form>
+    </div>
+
+    <div></div>
+  </article>
+
   <article class="customer__transactions">
     <div class="month__transactions">
       @for (item of transactionsDate().transactions; track $index) {

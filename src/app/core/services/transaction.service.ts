@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { TransactionDateResponse } from '../interfaces/transaction-date-response.interface';
 import { TransactionsByMonthResponse } from '../interfaces/transaction-by-month';
+import { TransactionsYearResponse } from '../interfaces/transaction-year-response.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -43,5 +44,9 @@ export class TransactionService {
       `${this.apiUrl}/transactions/by-month/${id}`,
       { params },
     );
+  }
+
+  public getTransactionsByYear(id: string): Observable<number[]> {
+    return this.http.get<number[]>(`${this.apiUrl}/transactions/by-year/${id}`);
   }
 }

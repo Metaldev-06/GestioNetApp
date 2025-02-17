@@ -11,8 +11,8 @@ import { CurrencyPipe, DatePipe, NgClass } from '@angular/common';
 import { Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { TUI_CONFIRM } from '@taiga-ui/kit';
-import { TuiAlertService, TuiDialogService } from '@taiga-ui/core';
+import { TUI_CONFIRM, TuiDataListWrapper } from '@taiga-ui/kit';
+import { TuiAlertService, TuiDataList, TuiDialogService } from '@taiga-ui/core';
 
 import { CustomerService } from '../../../core/services/customer.service';
 import { Customer } from '../../../core/interfaces/customers-response.interface';
@@ -20,10 +20,29 @@ import { TransactionService } from '../../../core/services/transaction.service';
 import { TransactionDateResponse } from '../../../core/interfaces/transaction-date-response.interface';
 import { MonthNamePipe } from '../../../shared/pipes/month-name.pipe';
 import { Transaction } from '../../../core/interfaces/transaction-by-month';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+
+import { TuiSelectModule } from '@taiga-ui/legacy';
+import { TransactionsYearResponse } from '../../../core/interfaces/transaction-year-response.interface';
 
 @Component({
   selector: 'app-view-one-customer',
-  imports: [CurrencyPipe, MonthNamePipe, DatePipe, NgClass],
+  imports: [
+    CurrencyPipe,
+    MonthNamePipe,
+    DatePipe,
+    NgClass,
+    FormsModule,
+    ReactiveFormsModule,
+    TuiSelectModule,
+    TuiDataList,
+    TuiDataListWrapper,
+  ],
   templateUrl: './view-one-customer.component.html',
   styleUrl: './view-one-customer.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -43,9 +62,18 @@ export default class ViewOneCustomerComponent implements OnInit {
     {} as TransactionDateResponse,
   );
   public transactions = signal<Transaction[]>([]);
+  public yearFilter = signal<number[]>([]);
+
+  testForm = new FormGroup({
+    testValue: new FormControl(),
+  });
 
   ngOnInit(): void {
     this.getCustomerById(this.id);
+  }
+
+  selectSubmit(): void {
+    console.log(this.testForm.value);
   }
 
   public deleteCustomer(id: string): void {
@@ -92,8 +120,32 @@ export default class ViewOneCustomerComponent implements OnInit {
   private getCustomerById(id: string): void {
     this.customerService.getCustomerById(id).subscribe((customer) => {
       this.customer.set(customer);
-      this.getTransactionsByAccountId(customer.account.id);
+      this.getTransactionsByYear(customer.account.id);
+      this.getTransactionsByAccountId(customer.account.id, 2025);
     });
+  }
+
+  private getTransactionsByYear(id: string): void {
+    this.transactionService
+      .getTransactionsByYear(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response) => {
+          this.yearFilter.set(response);
+        },
+        error: (error) => {
+          this.alerts
+            .open(`${error.error.message}`, {
+              label: `${error.error.error}`,
+              appearance: 'error',
+              closeable: true,
+              autoClose: 0,
+            })
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe();
+          console.error(error);
+        },
+      });
   }
 
   private deleteCustomerById(id: string): void {
@@ -119,9 +171,9 @@ export default class ViewOneCustomerComponent implements OnInit {
       });
   }
 
-  private getTransactionsByAccountId(id: string): void {
+  private getTransactionsByAccountId(id: string, year: number): void {
     this.transactionService
-      .getTransactionsByAccountId(id, 2025)
+      .getTransactionsByAccountId(id, year)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response) => {

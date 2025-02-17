@@ -50,17 +50,17 @@ export default class ViewCustomerComponent implements OnInit {
       this.getAllCustomers();
     }
 
-    console.log('No hay más clientes por cargar');
+    //console.log('No hay más clientes por cargar');
   }
 
   public resetFilters(): void {
     this.searchForm.reset();
     this.offset.set(0);
     this.hasMoreCustomers.set(true);
-    this.getAllCustomers();
+    this.getAllCustomers(undefined, true);
   }
 
-  private getAllCustomers(paramsFilter?: ParamsFilter): void {
+  private getAllCustomers(paramsFilter?: ParamsFilter, isSearch = false): void {
     if (this.isLoading()) return;
 
     this.isLoading.set(true);
@@ -76,13 +76,17 @@ export default class ViewCustomerComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response) => {
+          if (isSearch) {
+            this.hasMoreCustomers.set(false);
+            this.isLoading.set(false);
+            return this.customers.set(response.data);
+          }
+
           if (response.pagination.total < this.limit()) {
             this.hasMoreCustomers.set(false);
           }
           this.customers.set([...this.customers(), ...response.data]);
           this.isLoading.set(false);
-
-          console.log('Clientes cargados:', this.customers());
         },
         error: (error) => {
           this.isLoading.set(false);
@@ -114,6 +118,6 @@ export default class ViewCustomerComponent implements OnInit {
 
     this.offset.set(0);
     this.hasMoreCustomers.set(true);
-    this.getAllCustomers({ term });
+    this.getAllCustomers({ term }, true);
   }
 }
