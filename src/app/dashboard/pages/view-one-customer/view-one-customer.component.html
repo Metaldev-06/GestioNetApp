@@ -35,8 +35,8 @@
 
   <article class="customer__details">
     <div class="transactions__actions--year">
-      <form [formGroup]="testForm" (ngSubmit)="selectSubmit()">
-        <tui-select tuiTextfieldSize="s" formControlName="testValue">
+      <form [formGroup]="selectForm">
+        <tui-select tuiTextfieldSize="s" formControlName="selectValue">
           Año
           <input placeholder="Elija el año" tuiTextfieldLegacy />
           <tui-data-list-wrapper *tuiDataList [items]="yearFilter()" />

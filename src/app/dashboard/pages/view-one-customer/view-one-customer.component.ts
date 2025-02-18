@@ -10,16 +10,6 @@ import {
 import { CurrencyPipe, DatePipe, NgClass } from '@angular/common';
 import { Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
-import { TUI_CONFIRM, TuiDataListWrapper } from '@taiga-ui/kit';
-import { TuiAlertService, TuiDataList, TuiDialogService } from '@taiga-ui/core';
-
-import { CustomerService } from '../../../core/services/customer.service';
-import { Customer } from '../../../core/interfaces/customers-response.interface';
-import { TransactionService } from '../../../core/services/transaction.service';
-import { TransactionDateResponse } from '../../../core/interfaces/transaction-date-response.interface';
-import { MonthNamePipe } from '../../../shared/pipes/month-name.pipe';
-import { Transaction } from '../../../core/interfaces/transaction-by-month';
 import {
   FormControl,
   FormGroup,
@@ -27,8 +17,17 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 
+import { TUI_CONFIRM, TuiDataListWrapper } from '@taiga-ui/kit';
+import { TuiAlertService, TuiDataList, TuiDialogService } from '@taiga-ui/core';
 import { TuiSelectModule } from '@taiga-ui/legacy';
-import { TransactionsYearResponse } from '../../../core/interfaces/transaction-year-response.interface';
+
+import { CustomerService } from '../../../core/services/customer.service';
+import { Customer } from '../../../core/interfaces/customers-response.interface';
+import { TransactionService } from '../../../core/services/transaction.service';
+import { TransactionDateResponse } from '../../../core/interfaces/transaction-date-response.interface';
+import { MonthNamePipe } from '../../../shared/pipes/month-name.pipe';
+import { Transaction } from '../../../core/interfaces/transaction-by-month';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-view-one-customer',
@@ -50,6 +49,8 @@ import { TransactionsYearResponse } from '../../../core/interfaces/transaction-y
 export default class ViewOneCustomerComponent implements OnInit {
   @Input() private id: string = '';
 
+  private readonly currentYear = new Date().getFullYear();
+
   private readonly customerService = inject(CustomerService);
   private readonly transactionService = inject(TransactionService);
   private readonly dialogs = inject(TuiDialogService);
@@ -64,16 +65,23 @@ export default class ViewOneCustomerComponent implements OnInit {
   public transactions = signal<Transaction[]>([]);
   public yearFilter = signal<number[]>([]);
 
-  testForm = new FormGroup({
-    testValue: new FormControl(),
+  selectForm = new FormGroup({
+    selectValue: new FormControl(this.currentYear),
   });
 
   ngOnInit(): void {
     this.getCustomerById(this.id);
-  }
 
-  selectSubmit(): void {
-    console.log(this.testForm.value);
+    this.selectForm
+      .get('selectValue')
+      ?.valueChanges.subscribe((selectedYear) => {
+        if (selectedYear) {
+          this.getTransactionsByAccountId(
+            this.customer().account.id,
+            selectedYear,
+          );
+        }
+      });
   }
 
   public deleteCustomer(id: string): void {
@@ -95,34 +103,18 @@ export default class ViewOneCustomerComponent implements OnInit {
   }
 
   public selectMonth(month: number, year: number): void {
-    this.transactionService
-      .getTransactionsByMonth(this.customer().account.id, year, month)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (response) => {
-          this.transactions.set(response.transactions);
-        },
-        error: (error) => {
-          this.alerts
-            .open(`${error.error.message}`, {
-              label: `${error.error.error}`,
-              appearance: 'error',
-              closeable: true,
-              autoClose: 0,
-            })
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe();
-          console.error(error);
-        },
-      });
+    this.getTransactionsByMonth(this.customer().account.id, year, month);
   }
 
   private getCustomerById(id: string): void {
-    this.customerService.getCustomerById(id).subscribe((customer) => {
-      this.customer.set(customer);
-      this.getTransactionsByYear(customer.account.id);
-      this.getTransactionsByAccountId(customer.account.id, 2025);
-    });
+    this.customerService
+      .getCustomerById(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((customer) => {
+        this.customer.set(customer);
+        this.getTransactionsByYear(customer.account.id);
+        this.getTransactionsByAccountId(customer.account.id, this.currentYear);
+      });
   }
 
   private getTransactionsByYear(id: string): void {
@@ -130,21 +122,8 @@ export default class ViewOneCustomerComponent implements OnInit {
       .getTransactionsByYear(id)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (response) => {
-          this.yearFilter.set(response);
-        },
-        error: (error) => {
-          this.alerts
-            .open(`${error.error.message}`, {
-              label: `${error.error.error}`,
-              appearance: 'error',
-              closeable: true,
-              autoClose: 0,
-            })
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe();
-          console.error(error);
-        },
+        next: (response) => this.yearFilter.set(response),
+        error: (error) => this.handleError(error),
       });
   }
 
@@ -153,21 +132,8 @@ export default class ViewOneCustomerComponent implements OnInit {
       .deleteCustomer(id)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: () => {
-          this.router.navigate(['/view-customers']);
-        },
-        error: (error) => {
-          this.alerts
-            .open(`${error.error.message}`, {
-              label: `${error.error.error}`,
-              appearance: 'error',
-              closeable: true,
-              autoClose: 0,
-            })
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe();
-          console.error(error);
-        },
+        next: () => this.router.navigate(['/view-customers']),
+        error: (error) => this.handleError(error),
       });
   }
 
@@ -176,21 +142,36 @@ export default class ViewOneCustomerComponent implements OnInit {
       .getTransactionsByAccountId(id, year)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (response) => {
-          this.transactionsDate.set(response);
-        },
-        error: (error) => {
-          this.alerts
-            .open(`${error.error.message}`, {
-              label: `${error.error.error}`,
-              appearance: 'error',
-              closeable: true,
-              autoClose: 0,
-            })
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe();
-          console.error(error);
-        },
+        next: (response) => this.transactionsDate.set(response),
+        error: (error) => this.handleError(error),
       });
+  }
+
+  private getTransactionsByMonth(
+    id: string,
+    year: number,
+    month: number,
+  ): void {
+    this.transactionService
+      .getTransactionsByMonth(id, year, month)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response) => this.transactions.set(response.transactions),
+        error: (error) => this.handleError(error),
+      });
+  }
+
+  private handleError(error: HttpErrorResponse): void {
+    this.alerts
+      .open(`${error.error?.message || 'Error desconocido'}`, {
+        // Manejo de mensaje de error opcional
+        label: `${error.error?.error || 'Error'}`, // Manejo de título de error opcional
+        appearance: 'error',
+        closeable: true,
+        autoClose: 0,
+      })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe();
+    console.error(error);
   }
 }

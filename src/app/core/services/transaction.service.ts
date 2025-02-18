@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { TransactionDateResponse } from '../interfaces/transaction-date-response.interface';
 import { TransactionsByMonthResponse } from '../interfaces/transaction-by-month';
-import { TransactionsYearResponse } from '../interfaces/transaction-year-response.interface';
 
 @Injectable({
   providedIn: 'root',
