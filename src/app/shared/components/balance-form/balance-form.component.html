@@ -1,0 +1,69 @@
+<article class="customer__container">
+  <div class="customer__menu">
+    <form [formGroup]="customerForm" (ngSubmit)="onSubmit()">
+      <div class="form__flex">
+        <label tuiLabel class="tui-space_bottom-4">
+          <tui-input
+            formControlName="amount"
+            tuiTextfieldSize="m"
+            [tuiTextfieldCleaner]="true"
+          >
+            Monto <span>*</span>
+            <input tuiTextfieldLegacy type="text" [autocomplete]="false" />
+          </tui-input>
+          <tui-error
+            formControlName="amount"
+            [error]="[''] | tuiFieldError | async"
+          />
+        </label>
+
+        <label tuiLabel class="tui-space_bottom-4">
+          <tui-input
+            formControlName="type"
+            tuiTextfieldSize="m"
+            [tuiTextfieldCleaner]="true"
+          >
+            Típo <span>*</span>
+            <input tuiTextfieldLegacy type="text" [autocomplete]="false" />
+          </tui-input>
+          <tui-error
+            formControlName="type"
+            [error]="[''] | tuiFieldError | async"
+          />
+        </label>
+
+        <label tuiLabel class="tui-space_bottom-4">
+          <tui-input
+            formControlName="customer"
+            tuiTextfieldSize="m"
+            [tuiTextfieldCleaner]="true"
+          >
+            Cliente <span>*</span>
+            <input tuiTextfieldLegacy type="text" [autocomplete]="false" />
+          </tui-input>
+          <tui-error
+            formControlName="customer"
+            [error]="[''] | tuiFieldError | async"
+          />
+        </label>
+      </div>
+
+      <label tuiLabel class="tui-space_bottom-4">
+        <tui-input
+          formControlName="description"
+          tuiTextfieldSize="m"
+          [tuiTextfieldCleaner]="true"
+        >
+          Descripción
+          <input tuiTextfieldLegacy type="text" [autocomplete]="false" />
+        </tui-input>
+        <tui-error
+          formControlName="description"
+          [error]="[''] | tuiFieldError | async"
+        />
+      </label>
+
+      <button type="submit">Crear</button>
+    </form>
+  </div>
+</article>

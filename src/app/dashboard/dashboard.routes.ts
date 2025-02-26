@@ -25,6 +25,11 @@ export const DashboardRoutes: Routes = [
         loadComponent: () =>
           import('./pages/view-one-customer/view-one-customer.component'),
       },
+      {
+        path: 'modify-balance',
+        loadComponent: () =>
+          import('./pages/modify-balance/modify-balance.component'),
+      },
     ],
   },
 ];

@@ -51,14 +51,19 @@ export class LayoutComponent implements OnInit {
       link: '/view-customers',
     },
     {
+      title: 'modificar balance',
+      icon: 'pi pi-money-bill',
+      link: '/modify-balance',
+    },
+    {
       title: 'reportes',
       icon: 'pi pi-chart-bar',
-      link: '/dashboard/create-client',
+      link: '/create-client',
     },
     {
       title: 'historial',
       icon: 'pi pi-history',
-      link: '/dashboard/create-client',
+      link: '/create-client',
     },
   ];
 

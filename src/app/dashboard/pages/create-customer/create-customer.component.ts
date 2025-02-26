@@ -45,10 +45,10 @@ export default class CreateCustomerComponent implements OnInit {
   private readonly alerts = inject(TuiAlertService);
   private readonly customerService = inject(CustomerService);
 
-  public loginForm!: FormGroup;
+  public customerForm!: FormGroup;
 
   ngOnInit(): void {
-    this.loginForm = this.initLoginForm();
+    this.customerForm = this.initLoginForm();
   }
 
   initLoginForm(): FormGroup {
@@ -63,11 +63,11 @@ export default class CreateCustomerComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.loginForm.invalid) {
+    if (this.customerForm.invalid) {
       return;
     }
 
-    this.createCustomer(this.loginForm.getRawValue());
+    this.createCustomer(this.customerForm.getRawValue());
   }
 
   createCustomer(customer: CreateCustomerBody): void {
