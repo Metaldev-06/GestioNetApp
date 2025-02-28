@@ -59,7 +59,14 @@
       }
     </div>
 
-    <div class="transactions__container">
+    <div
+      class="transactions__container"
+      infiniteScroll
+      [infiniteScrollDistance]="2"
+      [infiniteScrollThrottle]="50"
+      (scrolled)="onScroll()"
+      [scrollWindow]="false"
+    >
       @for (transaction of transactions(); track $index) {
         <div class="transactions__item">
           <span

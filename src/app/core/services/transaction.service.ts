@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { TransactionDateResponse } from '../interfaces/transaction-date-response.interface';
 import { TransactionsByMonthResponse } from '../interfaces/transaction-by-month';
+import { ParamsFilter } from '../interfaces/params-filter.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -30,13 +31,14 @@ export class TransactionService {
     id: string,
     year: number,
     month: number,
-    page: number = 0,
-    limit: number = 10,
+    paramsFilter?: ParamsFilter,
   ): Observable<TransactionsByMonthResponse> {
+    const { limit = 10, offset = 0, order, sort, term } = paramsFilter || {};
+
     const params = new HttpParams()
       .set('year', year)
       .set('month', month)
-      .set('page', page)
+      .set('page', offset)
       .set('limit', limit);
 
     return this.http.get<TransactionsByMonthResponse>(

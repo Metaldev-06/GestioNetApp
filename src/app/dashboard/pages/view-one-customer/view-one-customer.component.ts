@@ -28,6 +28,7 @@ import { TransactionDateResponse } from '../../../core/interfaces/transaction-da
 import { MonthNamePipe } from '../../../shared/pipes/month-name.pipe';
 import { Transaction } from '../../../core/interfaces/transaction-by-month';
 import { HttpErrorResponse } from '@angular/common/http';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 
 @Component({
   selector: 'app-view-one-customer',
@@ -41,6 +42,7 @@ import { HttpErrorResponse } from '@angular/common/http';
     TuiSelectModule,
     TuiDataList,
     TuiDataListWrapper,
+    InfiniteScrollDirective,
   ],
   templateUrl: './view-one-customer.component.html',
   styleUrl: './view-one-customer.component.css',
@@ -48,6 +50,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export default class ViewOneCustomerComponent implements OnInit {
   @Input() private id: string = '';
+
+  // Variables para la paginación
+  private limit = signal(10);
+  private offset = signal(0);
+  private isLoading = signal(false); // Evita múltiples llamadas simultáneas
+  private hasMoreTransactions = signal(true); // Controla si hay más datos por cargar
 
   private readonly currentYear = new Date().getFullYear();
 
@@ -82,6 +90,14 @@ export default class ViewOneCustomerComponent implements OnInit {
           );
         }
       });
+  }
+
+  public onScroll() {
+    if (!this.isLoading() && this.hasMoreTransactions()) {
+      console.log('Cargando más clientes...');
+      this.offset.update((value) => (value += this.limit()));
+      // this.getAllCustomers();
+    }
   }
 
   public deleteCustomer(id: string): void {
@@ -147,6 +163,7 @@ export default class ViewOneCustomerComponent implements OnInit {
       });
   }
 
+  // ! Este es el que debo editar
   private getTransactionsByMonth(
     id: string,
     year: number,
@@ -160,6 +177,7 @@ export default class ViewOneCustomerComponent implements OnInit {
         error: (error) => this.handleError(error),
       });
   }
+  // !
 
   private handleError(error: HttpErrorResponse): void {
     this.alerts
