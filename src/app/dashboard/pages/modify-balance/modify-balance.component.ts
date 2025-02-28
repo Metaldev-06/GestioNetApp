@@ -3,10 +3,11 @@ import {
   Component,
   inject,
   OnInit,
+  signal,
 } from '@angular/core';
 import { BalanceFormComponent } from '../../../shared/components/balance-form/balance-form.component';
 import { CustomerService } from '../../../core/services/customer.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CustomerSanitized } from '../../../core/interfaces/customer-sanitized.interface';
 
 @Component({
   selector: 'app-modify-balance',
@@ -18,13 +19,15 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export default class ModifyBalanceComponent implements OnInit {
   private readonly customerService = inject(CustomerService);
 
+  public customers = signal<CustomerSanitized[]>([]);
+
   ngOnInit(): void {
     this.getAllCustomers();
   }
 
   private getAllCustomers() {
-    this.customerService.getAllCustomers().subscribe((response) => {
-      console.log(response);
+    this.customerService.getCustomerSanitized().subscribe((response) => {
+      this.customers.set(response);
     });
   }
 }

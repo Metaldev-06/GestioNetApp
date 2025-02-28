@@ -9,7 +9,7 @@
             [tuiTextfieldCleaner]="true"
           >
             Monto <span>*</span>
-            <input tuiTextfieldLegacy type="text" [autocomplete]="false" />
+            <input tuiTextfieldLegacy type="number" [autocomplete]="false" />
           </tui-input>
           <tui-error
             formControlName="amount"
@@ -18,14 +18,32 @@
         </label>
 
         <label tuiLabel class="tui-space_bottom-4">
-          <tui-input
-            formControlName="type"
+          <tui-select
             tuiTextfieldSize="m"
-            [tuiTextfieldCleaner]="true"
+            formControlName="type"
+            [valueContent]="TypeLabel"
+            class="select__customer"
           >
             Típo <span>*</span>
-            <input tuiTextfieldLegacy type="text" [autocomplete]="false" />
-          </tui-input>
+            <input placeholder="Selecciona un cliente" tuiTextfieldLegacy />
+            <ng-template tuiDataList>
+              <tui-data-list>
+                @for (item of type(); track $index) {
+                  <button
+                    class="button__select"
+                    tuiOption
+                    type="button"
+                    [value]="item"
+                  >
+                    {{ item.label }}
+                  </button>
+                }
+              </tui-data-list>
+            </ng-template>
+            <ng-template #TypeLabel let-item>
+              {{ item.label }}
+            </ng-template>
+          </tui-select>
           <tui-error
             formControlName="type"
             [error]="[''] | tuiFieldError | async"
@@ -33,14 +51,32 @@
         </label>
 
         <label tuiLabel class="tui-space_bottom-4">
-          <tui-input
-            formControlName="customer"
+          <tui-select
             tuiTextfieldSize="m"
-            [tuiTextfieldCleaner]="true"
+            formControlName="customer"
+            [valueContent]="customerName"
+            class="select__customer"
           >
             Cliente <span>*</span>
-            <input tuiTextfieldLegacy type="text" [autocomplete]="false" />
-          </tui-input>
+            <input placeholder="Selecciona un cliente" tuiTextfieldLegacy />
+            <ng-template tuiDataList>
+              <tui-data-list>
+                @for (item of customers(); track $index) {
+                  <button
+                    class="button__select"
+                    tuiOption
+                    type="button"
+                    [value]="item"
+                  >
+                    {{ item.name }}
+                  </button>
+                }
+              </tui-data-list>
+            </ng-template>
+            <ng-template #customerName let-item>
+              {{ item.name }}
+            </ng-template>
+          </tui-select>
           <tui-error
             formControlName="customer"
             [error]="[''] | tuiFieldError | async"
