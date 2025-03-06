@@ -45,7 +45,6 @@ export default class HomeComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (summary) => {
-          console.log(summary);
           this.customerSummary.set(summary);
         },
         error: (error) => {},

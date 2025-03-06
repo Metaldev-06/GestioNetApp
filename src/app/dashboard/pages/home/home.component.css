@@ -30,7 +30,6 @@
       h3 {
         font-size: 1.5rem;
         opacity: 0.9;
-        color: #09090b;
       }
     }
   }
@@ -102,7 +101,6 @@
 .customers__card:nth-child(9) {
   background: linear-gradient(45deg, #ffbb7f, #ff7f7f, #ff6b6b);
 }
-
 .customers__card:nth-child(10) {
   background: linear-gradient(45deg, #6bff71, #7fff82);
 }
@@ -148,4 +146,9 @@
 }
 .info__card:nth-child(4) {
   background: linear-gradient(45deg, #6b93ff, #7fa6ff);
+} */
+
+/* .info__card {
+  background: linear-gradient(45deg, #6b71ff, #7f82ff);
+  color: white;
 } */
