@@ -33,7 +33,7 @@ export class TransactionService {
     month: number,
     paramsFilter?: ParamsFilter,
   ): Observable<TransactionsByMonthResponse> {
-    const { limit = 10, offset = 0, order, sort, term } = paramsFilter || {};
+    const { limit = 15, offset = 0, order, sort, term } = paramsFilter || {};
 
     const params = new HttpParams()
       .set('year', year)

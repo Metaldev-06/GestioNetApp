@@ -52,9 +52,11 @@ export default class ViewOneCustomerComponent implements OnInit {
   @Input() private id: string = '';
 
   // Variables para la paginación
-  private limit = signal(10);
+  private limit = signal(12);
   private offset = signal(0);
   private isLoading = signal(false); // Evita múltiples llamadas simultáneas
+  private selectedMonth = signal<number>(0);
+  private selectedYear = signal<number>(new Date().getFullYear());
   private hasMoreTransactions = signal(true); // Controla si hay más datos por cargar
 
   private readonly currentYear = new Date().getFullYear();
@@ -84,6 +86,10 @@ export default class ViewOneCustomerComponent implements OnInit {
       .get('selectValue')
       ?.valueChanges.subscribe((selectedYear) => {
         if (selectedYear) {
+          this.selectedYear.set(selectedYear);
+          this.transactions.set([]);
+          this.offset.set(0);
+          this.hasMoreTransactions.set(true);
           this.getTransactionsByAccountId(
             this.customer().account.id,
             selectedYear,
@@ -93,10 +99,18 @@ export default class ViewOneCustomerComponent implements OnInit {
   }
 
   public onScroll() {
-    if (!this.isLoading() && this.hasMoreTransactions()) {
-      console.log('Cargando más clientes...');
-      this.offset.update((value) => (value += this.limit()));
-      // this.getAllCustomers();
+    if (
+      !this.isLoading() &&
+      this.hasMoreTransactions() &&
+      this.selectedMonth()
+    ) {
+      console.log('Cargando más transacciones...');
+      this.offset.update((value) => value + this.limit());
+      this.getTransactionsByMonth(
+        this.customer().account.id,
+        this.selectedYear(),
+        this.selectedMonth(),
+      );
     }
   }
 
@@ -119,7 +133,9 @@ export default class ViewOneCustomerComponent implements OnInit {
   }
 
   public selectMonth(month: number, year: number): void {
-    this.getTransactionsByMonth(this.customer().account.id, year, month);
+    this.selectedYear.set(year);
+    this.selectedMonth.set(month);
+    this.getTransactionsByMonth(this.customer().account.id, year, month, true);
   }
 
   private getCustomerById(id: string): void {
@@ -168,13 +184,45 @@ export default class ViewOneCustomerComponent implements OnInit {
     id: string,
     year: number,
     month: number,
+    isSelect = false,
   ): void {
+    if (this.isLoading()) return;
+
+    this.isLoading.set(true);
+
+    const filters = {
+      limit: this.limit(),
+      offset: this.offset(),
+    };
+
     this.transactionService
-      .getTransactionsByMonth(id, year, month)
+      .getTransactionsByMonth(id, year, month, filters)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (response) => this.transactions.set(response.transactions),
-        error: (error) => this.handleError(error),
+        next: (response) => {
+          if (isSelect) {
+            this.selectedMonth.set(month);
+            this.selectedYear.set(year);
+            this.offset.set(0);
+            this.transactions.set(response.transactions);
+            this.isLoading.set(false);
+            this.hasMoreTransactions.set(true);
+            return;
+          }
+
+          if (response.transactions.length < this.limit()) {
+            this.hasMoreTransactions.set(false);
+          }
+          this.transactions.set([
+            ...this.transactions(),
+            ...response.transactions,
+          ]);
+          this.isLoading.set(false);
+        },
+        error: (error) => {
+          this.handleError(error);
+          this.isLoading.set(false);
+        },
       });
   }
   // !
