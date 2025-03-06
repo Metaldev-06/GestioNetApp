@@ -11,6 +11,7 @@ import {
 } from '../interfaces/customers-response.interface';
 import { ParamsFilter } from '../interfaces/params-filter.interface';
 import { CustomerSanitized } from '../interfaces/customer-sanitized.interface';
+import { CustomersSummaryResponse } from '../interfaces/customer-summary.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -53,6 +54,12 @@ export class CustomerService {
   public getCustomerSanitized(): Observable<CustomerSanitized[]> {
     return this.http.get<CustomerSanitized[]>(
       `${this.apiUrl}/customers/sanitized`,
+    );
+  }
+
+  public getCustomerSummary(): Observable<CustomersSummaryResponse> {
+    return this.http.get<CustomersSummaryResponse>(
+      `${this.apiUrl}/customers/summary`,
     );
   }
 

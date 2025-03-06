@@ -1,10 +1,33 @@
 <section class="dashboard__home">
-  <article class="dashboard__info"></article>
+  <article class="dashboard__info">
+    <div class="info__card">
+      <h2>Saldo</h2>
+      <h3>{{ customerSummary().total | currency: "ARS" }}</h3>
+    </div>
+
+    <div class="info__card">
+      <h2>Clientes</h2>
+      <h3>{{ customerSummary().customers }}</h3>
+    </div>
+
+    <div class="info__card">
+      <h2>Positivo</h2>
+      <h3>{{ customerSummary().balance | currency: "ARS" }}</h3>
+    </div>
+
+    <div class="info__card">
+      <h2>Negativo</h2>
+      <h3>{{ customerSummary().debt | currency: "ARS" }}</h3>
+    </div>
+  </article>
 
   <article class="dashboard__customers">
     <div class="customers__container">
       @for (customer of customers(); track $index) {
-        <div class="customers__card">
+        <div
+          class="customers__card"
+          [routerLink]="['/view-customers', customer.id]"
+        >
           <h2>{{ customer.name }}</h2>
 
           <div class="customer__balance">
