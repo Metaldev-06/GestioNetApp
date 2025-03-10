@@ -24,15 +24,17 @@ import {
 } from '@taiga-ui/kit';
 import {
   TuiInputModule,
+  TuiInputNumberModule,
   TuiSelectModule,
   TuiTextfieldControllerModule,
 } from '@taiga-ui/legacy';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { TuiCurrencyPipe } from '@taiga-ui/addon-commerce';
 
 import { CustomerSanitized } from '../../../core/interfaces/customer-sanitized.interface';
 import { ModifyBalanceService } from '../../../core/services/modify-balance.service';
 import { TransactionsType } from '../../../core/enums/transactions-type.enum';
 import { ModifyBalanceBody } from '../../../core/interfaces/modify-balance.interface';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-balance-form',
@@ -46,6 +48,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     TuiInputModule,
     TuiSelectModule,
     TuiTextfieldControllerModule,
+    TuiInputNumberModule,
+    TuiCurrencyPipe,
   ],
   templateUrl: './balance-form.component.html',
   styleUrl: './balance-form.component.css',
@@ -82,7 +86,7 @@ export class BalanceFormComponent implements OnInit, OnChanges {
   initLoginForm(): FormGroup {
     return this.formBuilder.group({
       amount: [
-        '',
+        null,
         [Validators.required, Validators.min(1), Validators.max(999999999)],
       ],
       type: ['', [Validators.required]],
