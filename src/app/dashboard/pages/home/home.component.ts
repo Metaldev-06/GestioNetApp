@@ -15,7 +15,7 @@ import { CustomersSummaryResponse } from '../../../core/interfaces/customer-summ
 })
 export default class HomeComponent implements OnInit {
   public customers = signal<Customer[]>([]);
-  public customerSummary = signal<CustomersSummaryResponse>(
+  public customerSummary = signal<CustomersSummaryResponse | null>(
     {} as CustomersSummaryResponse,
   );
 
