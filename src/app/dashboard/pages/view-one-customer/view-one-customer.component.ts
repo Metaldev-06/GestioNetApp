@@ -135,6 +135,7 @@ export default class ViewOneCustomerComponent implements OnInit {
   public selectMonth(month: number, year: number): void {
     this.selectedYear.set(year);
     this.selectedMonth.set(month);
+    this.offset.set(0);
     this.getTransactionsByMonth(this.customer().account.id, year, month, true);
   }
 
