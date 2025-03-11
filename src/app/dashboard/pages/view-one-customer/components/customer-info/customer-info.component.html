@@ -1,0 +1,26 @@
+<div class="customer__info">
+  <h1>{{ customer().name }}</h1>
+
+  @if (customer().account) {
+    @if (customer().account.debt === 0) {
+      <h2>
+        Saldo:
+        <span class="positive">{{
+          customer().account.balance | currency: "$"
+        }}</span>
+      </h2>
+    } @else {
+      <h2>
+        Saldo:
+        <span class="negative">
+          - {{ customer().account.debt | currency: "$" }}
+        </span>
+      </h2>
+    }
+
+    <h3>
+      Límite de Débito:
+      <span>{{ customer().account.debtLimit | currency: "$" }}</span>
+    </h3>
+  }
+</div>

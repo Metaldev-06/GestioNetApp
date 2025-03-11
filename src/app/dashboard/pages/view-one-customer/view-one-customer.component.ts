@@ -16,10 +16,13 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { TUI_CONFIRM, TuiDataListWrapper } from '@taiga-ui/kit';
 import { TuiAlertService, TuiDataList, TuiDialogService } from '@taiga-ui/core';
 import { TuiSelectModule } from '@taiga-ui/legacy';
+
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 
 import { CustomerService } from '../../../core/services/customer.service';
 import { Customer } from '../../../core/interfaces/customers-response.interface';
@@ -27,8 +30,7 @@ import { TransactionService } from '../../../core/services/transaction.service';
 import { TransactionDateResponse } from '../../../core/interfaces/transaction-date-response.interface';
 import { MonthNamePipe } from '../../../shared/pipes/month-name.pipe';
 import { Transaction } from '../../../core/interfaces/transaction-by-month';
-import { HttpErrorResponse } from '@angular/common/http';
-import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
+import { CustomerInfoComponent } from './components/customer-info/customer-info.component';
 
 @Component({
   selector: 'app-view-one-customer',
@@ -43,6 +45,7 @@ import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
     TuiDataList,
     TuiDataListWrapper,
     InfiniteScrollDirective,
+    CustomerInfoComponent,
   ],
   templateUrl: './view-one-customer.component.html',
   styleUrl: './view-one-customer.component.css',
@@ -51,13 +54,12 @@ import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 export default class ViewOneCustomerComponent implements OnInit {
   @Input() private id: string = '';
 
-  // Variables para la paginación
   private limit = signal(12);
   private offset = signal(0);
-  private isLoading = signal(false); // Evita múltiples llamadas simultáneas
+  private isLoading = signal(false);
   private selectedMonth = signal<number>(0);
   private selectedYear = signal<number>(new Date().getFullYear());
-  private hasMoreTransactions = signal(true); // Controla si hay más datos por cargar
+  private hasMoreTransactions = signal(true);
 
   private readonly currentYear = new Date().getFullYear();
 
@@ -104,7 +106,6 @@ export default class ViewOneCustomerComponent implements OnInit {
       this.hasMoreTransactions() &&
       this.selectedMonth()
     ) {
-      console.log('Cargando más transacciones...');
       this.offset.update((value) => value + this.limit());
       this.getTransactionsByMonth(
         this.customer().account.id,
@@ -180,7 +181,6 @@ export default class ViewOneCustomerComponent implements OnInit {
       });
   }
 
-  // ! Este es el que debo editar
   private getTransactionsByMonth(
     id: string,
     year: number,
@@ -226,13 +226,11 @@ export default class ViewOneCustomerComponent implements OnInit {
         },
       });
   }
-  // !
 
   private handleError(error: HttpErrorResponse): void {
     this.alerts
       .open(`${error.error?.message || 'Error desconocido'}`, {
-        // Manejo de mensaje de error opcional
-        label: `${error.error?.error || 'Error'}`, // Manejo de título de error opcional
+        label: `${error.error?.error || 'Error'}`,
         appearance: 'error',
         closeable: true,
         autoClose: 0,

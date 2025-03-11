@@ -1,31 +1,6 @@
 <section class="customer__container">
   <article class="customer__header">
-    <div class="customer__info">
-      <h1>{{ customer().name }}</h1>
-
-      @if (customer().account) {
-        @if (customer().account.debt === 0) {
-          <h2>
-            Saldo:
-            <span class="positive">{{
-              customer().account.balance | currency: "$"
-            }}</span>
-          </h2>
-        } @else {
-          <h2>
-            Saldo:
-            <span class="negative">
-              - {{ customer().account.debt | currency: "$" }}
-            </span>
-          </h2>
-        }
-
-        <h3>
-          Límite de Débito:
-          <span>{{ customer().account.debtLimit | currency: "$" }}</span>
-        </h3>
-      }
-    </div>
+    <app-customer-info [customer]="customer()" />
 
     <div class="customer__actions">
       <button class="edit">Editar Cliente</button>
@@ -46,7 +21,11 @@
       </form>
     </div>
 
-    <div></div>
+    <div class="transactions__actions">
+      <button>Agregar Saldo</button>
+      <button>Reducir Saldo</button>
+      <button>Pagar Deuda</button>
+    </div>
   </article>
 
   <article class="customer__transactions">

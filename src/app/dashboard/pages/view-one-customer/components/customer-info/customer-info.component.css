@@ -1,0 +1,21 @@
+.customer__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+
+  h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  h2,
+  h3 {
+    font-size: 1.2rem;
+    font-weight: normal;
+
+    span {
+      font-size: 1.6 rem;
+      font-weight: 900;
+    }
+  }
+}
