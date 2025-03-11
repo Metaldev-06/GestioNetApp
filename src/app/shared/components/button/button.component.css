@@ -19,3 +19,18 @@ button {
     transform: scale(0.98);
   }
 }
+
+.add {
+  background-color: #5cb85c;
+  color: white;
+}
+
+.reduce {
+  background-color: #d9534f;
+  color: white;
+}
+
+.debt {
+  background-color: #f0ad4e;
+  color: white;
+}

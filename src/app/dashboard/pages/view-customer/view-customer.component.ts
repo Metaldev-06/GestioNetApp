@@ -32,11 +32,10 @@ export default class ViewCustomerComponent implements OnInit {
   private readonly formBuilder = inject(FormBuilder);
   private readonly alerts = inject(TuiAlertService);
 
-  // Variables para la paginación
   private limit = signal(10);
   private offset = signal(0);
-  private isLoading = signal(false); // Evita múltiples llamadas simultáneas
-  private hasMoreCustomers = signal(true); // Controla si hay más datos por cargar
+  private isLoading = signal(false);
+  private hasMoreCustomers = signal(true);
 
   ngOnInit(): void {
     this.searchForm = this.initSearchForm();
@@ -49,8 +48,6 @@ export default class ViewCustomerComponent implements OnInit {
       this.offset.update((value) => (value += this.limit()));
       this.getAllCustomers();
     }
-
-    //console.log('No hay más clientes por cargar');
   }
 
   public resetFilters(): void {

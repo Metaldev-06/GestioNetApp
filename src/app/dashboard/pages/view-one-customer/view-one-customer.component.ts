@@ -31,6 +31,7 @@ import { TransactionDateResponse } from '../../../core/interfaces/transaction-da
 import { MonthNamePipe } from '../../../shared/pipes/month-name.pipe';
 import { Transaction } from '../../../core/interfaces/transaction-by-month';
 import { CustomerInfoComponent } from './components/customer-info/customer-info.component';
+import { ButtonComponent } from '../../../shared/components/button/button.component';
 
 @Component({
   selector: 'app-view-one-customer',
@@ -46,6 +47,7 @@ import { CustomerInfoComponent } from './components/customer-info/customer-info.
     TuiDataListWrapper,
     InfiniteScrollDirective,
     CustomerInfoComponent,
+    ButtonComponent,
   ],
   templateUrl: './view-one-customer.component.html',
   styleUrl: './view-one-customer.component.css',
