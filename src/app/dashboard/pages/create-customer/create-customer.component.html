@@ -101,7 +101,12 @@
           />
         </label>
       </div>
-      <button type="submit" [disabled]="customerForm.invalid">Crear</button>
+      <!-- <button type="submit" [disabled]="customerForm.invalid">Crear</button -->
+      <app-button
+        [label]="'Crear'"
+        [disabled]="customerForm.invalid"
+        [type]="'submit'"
+      ></app-button>
     </form>
   </article>
 </section>

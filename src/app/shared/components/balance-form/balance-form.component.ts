@@ -35,21 +35,23 @@ import { CustomerSanitized } from '../../../core/interfaces/customer-sanitized.i
 import { ModifyBalanceService } from '../../../core/services/modify-balance.service';
 import { TransactionsType } from '../../../core/enums/transactions-type.enum';
 import { ModifyBalanceBody } from '../../../core/interfaces/modify-balance.interface';
+import { ButtonComponent } from '../button/button.component';
 
 @Component({
   selector: 'app-balance-form',
   imports: [
     AsyncPipe,
+    ButtonComponent,
     ReactiveFormsModule,
+    TuiCurrencyPipe,
     TuiDataList,
     TuiDataListWrapper,
     TuiError,
     TuiFieldErrorPipe,
     TuiInputModule,
+    TuiInputNumberModule,
     TuiSelectModule,
     TuiTextfieldControllerModule,
-    TuiInputNumberModule,
-    TuiCurrencyPipe,
   ],
   templateUrl: './balance-form.component.html',
   styleUrl: './balance-form.component.css',

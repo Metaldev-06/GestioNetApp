@@ -54,26 +54,8 @@ tui-input {
   width: 100%;
 }
 
-button {
+app-button {
   width: 100%;
   max-width: 200px;
   margin: 2rem auto;
-  height: 40px;
-  padding: 0.5rem;
-  border: none;
-  border-radius: 7px;
-  background-color: var(--black-color);
-  color: #fff;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-  font-weight: bold;
-
-  &:hover:not([disabled]) {
-    opacity: 0.8;
-  }
-  &:active:not([disabled]) {
-    opacity: 0.8;
-    transform: scale(0.98);
-  }
 }

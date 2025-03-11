@@ -12,12 +12,15 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 import { TuiAlertService, TuiError } from '@taiga-ui/core';
 import { TuiFieldErrorPipe, tuiValidationErrorsProvider } from '@taiga-ui/kit';
 import { TuiInputModule, TuiTextfieldControllerModule } from '@taiga-ui/legacy';
+
 import { CustomerService } from '../../../core/services/customer.service';
 import { CreateCustomerBody } from '../../../core/interfaces/create-customer.interface';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ButtonComponent } from '../../../shared/components/button/button.component';
 
 @Component({
   selector: 'app-create-customer',
@@ -28,6 +31,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     TuiFieldErrorPipe,
     AsyncPipe,
     TuiInputModule,
+    ButtonComponent,
   ],
   templateUrl: './create-customer.component.html',
   styleUrl: './create-customer.component.css',
