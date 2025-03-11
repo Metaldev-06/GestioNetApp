@@ -33,15 +33,11 @@
           <div class="customer__balance">
             @if (customer.account.debt === 0) {
               <h3>
-                <span class="positive">{{
-                  customer.account.balance | currency: "ARS"
-                }}</span>
+                <span>{{ customer.account.balance | currency: "ARS" }}</span>
               </h3>
             } @else {
               <h3>
-                <span class="negative">
-                  - {{ customer.account.debt | currency: "ARS" }}
-                </span>
+                <span> - {{ customer.account.debt | currency: "ARS" }} </span>
               </h3>
             }
           </div>

@@ -80,7 +80,7 @@ export class BalanceFormComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
-    console.log(this.customers());
+    // console.log(this.customers());
   }
 
   initLoginForm(): FormGroup {
@@ -113,6 +113,7 @@ export class BalanceFormComponent implements OnInit, OnChanges {
     }
 
     this.addBalance(balance);
+    this.customerForm.reset();
   }
 
   addBalance(modifyBalance: ModifyBalanceBody): void {

@@ -166,14 +166,19 @@
         justify-content: center;
         align-items: center;
       }
+
+      &::-webkit-scrollbar {
+        width: 9px;
+      }
+
+      &::-webkit-scrollbar-track {
+        /* background: red; */
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: var(--gray-color-input);
+        border-radius: 20px;
+      }
     }
-  }
-
-  .negative {
-    color: red;
-  }
-
-  .positive {
-    color: #48bb78;
   }
 }

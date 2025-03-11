@@ -68,6 +68,7 @@ export default class CreateCustomerComponent implements OnInit {
     }
 
     this.createCustomer(this.customerForm.getRawValue());
+    this.customerForm.reset();
   }
 
   createCustomer(customer: CreateCustomerBody): void {
