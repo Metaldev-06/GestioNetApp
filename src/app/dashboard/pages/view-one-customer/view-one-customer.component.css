@@ -59,9 +59,10 @@
       max-width: 180px;
       display: flex;
       gap: 0.5rem;
+      justify-content: flex-end;
 
       app-button {
-        flex-grow: 1;
+        width: 50px;
       }
     }
   }
