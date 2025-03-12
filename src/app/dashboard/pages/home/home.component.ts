@@ -1,53 +1,30 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
-import { CustomerService } from '../../../core/services/customer.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { rxResource } from '@angular/core/rxjs-interop';
 
-import { Customer } from '../../../core/interfaces/customers-response.interface';
-import { CurrencyPipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { CustomersSummaryResponse } from '../../../core/interfaces/customer-summary.interface';
+import { map } from 'rxjs';
+
+import { CustomerService } from '../../../core/services/customer.service';
+import { DashboardInfoComponent } from './components/dashboard-info/dashboard-info.component';
+import { DashboardCustomerComponent } from './components/dashboard-customer/dashboard-customer.component';
 
 @Component({
   selector: 'app-home',
-  imports: [CurrencyPipe, RouterLink],
+  imports: [DashboardInfoComponent, DashboardCustomerComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class HomeComponent implements OnInit {
-  public customers = signal<Customer[]>([]);
-  public customerSummary = signal<CustomersSummaryResponse | null>(
-    {} as CustomersSummaryResponse,
-  );
-
+export default class HomeComponent {
   private readonly customerService = inject(CustomerService);
-  private readonly destroyRef = inject(DestroyRef);
 
-  ngOnInit() {
-    this.getCustomers();
-    this.getCustomerSummary();
-  }
+  public customers = rxResource({
+    loader: () =>
+      this.customerService
+        .getAllCustomers()
+        .pipe(map((customers) => customers.data)),
+  });
 
-  getCustomers() {
-    this.customerService
-      .getAllCustomers()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (customers) => {
-          this.customers.set(customers.data);
-        },
-        error: (error) => {},
-      });
-  }
-
-  getCustomerSummary() {
-    this.customerService
-      .getCustomerSummary()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (summary) => {
-          this.customerSummary.set(summary);
-        },
-        error: (error) => {},
-      });
-  }
+  public customerSummary = rxResource({
+    loader: () => this.customerService.getCustomerSummary(),
+  });
 }

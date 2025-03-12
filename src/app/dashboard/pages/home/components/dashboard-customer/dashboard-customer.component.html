@@ -1,0 +1,28 @@
+<article class="dashboard__customers">
+  <div class="customers__container">
+    @for (customer of customers(); track $index) {
+      <div
+        class="customers__card"
+        [routerLink]="['/view-customers', customer.id]"
+      >
+        <h2>{{ customer.name }}</h2>
+
+        <div class="customer__balance">
+          @if (customer.account.debt === 0) {
+            <h3>
+              <span>{{ customer.account.balance | currency: "ARS" }}</span>
+            </h3>
+          } @else {
+            <h3>
+              <span> - {{ customer.account.debt | currency: "ARS" }} </span>
+            </h3>
+          }
+        </div>
+      </div>
+    } @empty {
+      <div class="customers__empty">
+        <h2>No hay clientes</h2>
+      </div>
+    }
+  </div>
+</article>

@@ -1,0 +1,21 @@
+<article class="dashboard__info">
+  <div class="info__card">
+    <h2>Saldo</h2>
+    <h3>{{ customerSummary()?.total ?? 0 | currency: "ARS" }}</h3>
+  </div>
+
+  <div class="info__card">
+    <h2>Clientes</h2>
+    <h3>{{ customerSummary()?.customers ?? 0 }}</h3>
+  </div>
+
+  <div class="info__card">
+    <h2>Positivo</h2>
+    <h3>{{ customerSummary()?.balance ?? 0 | currency: "ARS" }}</h3>
+  </div>
+
+  <div class="info__card">
+    <h2>Negativo</h2>
+    <h3>{{ customerSummary()?.debt ?? 0 | currency: "ARS" }}</h3>
+  </div>
+</article>

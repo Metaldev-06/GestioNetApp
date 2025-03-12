@@ -142,6 +142,7 @@
     width: 97%;
     height: calc(100% - 50px);
     margin: 1.5rem auto;
+    overflow: hidden;
   }
 
   .active {
