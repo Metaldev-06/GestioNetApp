@@ -1,0 +1,22 @@
+.skeleton__container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 10px;
+
+  .skeleton__card {
+    height: 200px;
+    border-radius: 0.5rem;
+  }
+}
+
+.skeleton__container--secondary {
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  height: 88px;
+
+  .skeleton__card--secondary {
+    border-radius: 0.5rem;
+  }
+}

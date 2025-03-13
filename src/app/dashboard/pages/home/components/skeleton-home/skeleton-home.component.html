@@ -1,0 +1,41 @@
+@if (!secondary()) {
+  <div class="skeleton__container">
+    @for (item of skeletonArray(); track $index) {
+      <div
+        class="skeleton__card"
+        tuiAppearance="neutral"
+        tuiCardLarge
+        [tuiSkeleton]="true"
+      >
+        <h2 tuiHeader>
+          <span tuiTitle>
+            Card
+            <span tuiSubtitle>Subtitle</span>
+          </span>
+        </h2>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua.
+      </div>
+    }
+  </div>
+} @else {
+  <div class="skeleton__container--secondary">
+    @for (item of skeletonArray(); track $index) {
+      <div
+        class="skeleton__card--secondary"
+        tuiAppearance="neutral"
+        tuiCardLarge
+        [tuiSkeleton]="true"
+      >
+        <h2 tuiHeader>
+          <span tuiTitle>
+            Card
+            <span tuiSubtitle>Subtitle</span>
+          </span>
+        </h2>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua.
+      </div>
+    }
+  </div>
+}

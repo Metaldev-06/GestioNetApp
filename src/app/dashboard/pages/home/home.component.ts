@@ -6,10 +6,15 @@ import { map } from 'rxjs';
 import { CustomerService } from '../../../core/services/customer.service';
 import { DashboardInfoComponent } from './components/dashboard-info/dashboard-info.component';
 import { DashboardCustomerComponent } from './components/dashboard-customer/dashboard-customer.component';
+import { SkeletonHomeComponent } from './components/skeleton-home/skeleton-home.component';
 
 @Component({
   selector: 'app-home',
-  imports: [DashboardInfoComponent, DashboardCustomerComponent],
+  imports: [
+    DashboardInfoComponent,
+    DashboardCustomerComponent,
+    SkeletonHomeComponent,
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,4 +1,13 @@
 <section class="dashboard__home">
-  <app-dashboard-info [customerSummary]="customerSummary.value()!" />
-  <app-dashboard-customer [customers]="customers.value()!" />
+  @if (!customerSummary.isLoading()) {
+    <app-dashboard-info [customerSummary]="customerSummary.value()!" />
+  } @else {
+    <app-skeleton-home [cantSkeleton]="4" [secondary]="true" />
+  }
+
+  @if (!customers.isLoading()) {
+    <app-dashboard-customer [customers]="customers.value()!" />
+  } @else {
+    <app-skeleton-home [cantSkeleton]="8" />
+  }
 </section>
