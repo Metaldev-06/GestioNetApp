@@ -73,16 +73,16 @@
         .group__menu--content {
           width: 100%;
 
-          .group__menu--title {
-            color: var(--gray-color-strong);
-            font-weight: bold;
-          }
-
           .group__menu--content {
             display: flex;
             flex-direction: column;
             gap: 0.1rem;
           }
+        }
+
+        .group__menu--title {
+          color: var(--gray-color-strong);
+          font-weight: bold;
         }
       }
 
