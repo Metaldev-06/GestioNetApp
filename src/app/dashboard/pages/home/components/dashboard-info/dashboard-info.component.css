@@ -10,11 +10,11 @@
     flex-grow: 1;
     padding: 1rem;
     border-radius: 0.5rem;
-    /* box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); */
-    /* background-color: white; */
-    /* border: 1px solid #d6d6d9; */
-    background-color: #093e7b;
-    color: white;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    border: 1px solid #d6d6d9;
+    /* background-color: #093e7b;
+    color: white; */
 
     h2,
     h3 {
