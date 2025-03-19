@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
+  Inject,
   inject,
   Input,
   OnInit,
@@ -146,10 +147,16 @@ export default class ViewOneCustomerComponent implements OnInit {
     this.customerService
       .getCustomerById(id)
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((customer) => {
-        this.customer.set(customer);
-        this.getTransactionsByYear(customer.account.id);
-        this.getTransactionsByAccountId(customer.account.id, this.currentYear);
+      .subscribe({
+        next: (customer) => {
+          this.customer.set(customer);
+          this.getTransactionsByYear(customer.account.id);
+          this.getTransactionsByAccountId(
+            customer.account.id,
+            this.currentYear,
+          );
+        },
+        error: () => this.router.navigateByUrl('/view-customers'),
       });
   }
 
