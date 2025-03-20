@@ -20,7 +20,12 @@ import {
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { TUI_CONFIRM, TuiDataListWrapper } from '@taiga-ui/kit';
-import { TuiAlertService, TuiDataList, TuiDialogService } from '@taiga-ui/core';
+import {
+  TuiAlertService,
+  TuiDataList,
+  TuiDialog,
+  TuiDialogService,
+} from '@taiga-ui/core';
 import { TuiSelectModule } from '@taiga-ui/legacy';
 
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
@@ -33,6 +38,8 @@ import { MonthNamePipe } from '../../../shared/pipes/month-name.pipe';
 import { Transaction } from '../../../core/interfaces/transaction-by-month';
 import { CustomerInfoComponent } from './components/customer-info/customer-info.component';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
+import { FormBalanceComponent } from './components/form-balance/form-balance.component';
+import { TransactionsType } from '../../../core/enums/transactions-type.enum';
 
 @Component({
   selector: 'app-view-one-customer',
@@ -49,6 +56,8 @@ import { ButtonComponent } from '../../../shared/components/button/button.compon
     InfiniteScrollDirective,
     CustomerInfoComponent,
     ButtonComponent,
+    TuiDialog,
+    FormBalanceComponent,
   ],
   templateUrl: './view-one-customer.component.html',
   styleUrl: './view-one-customer.component.css',
@@ -79,10 +88,22 @@ export default class ViewOneCustomerComponent implements OnInit {
   );
   public transactions = signal<Transaction[]>([]);
   public yearFilter = signal<number[]>([]);
+  public typeTransactions = signal<TransactionsType | null>(null);
 
   selectForm = new FormGroup({
     selectValue: new FormControl(this.currentYear),
   });
+
+  protected open = false;
+
+  protected showDialog(creditBalance: boolean): void {
+    if (creditBalance) {
+      this.typeTransactions.set(TransactionsType.CREDIT);
+    } else {
+      this.typeTransactions.set(TransactionsType.DEBIT);
+    }
+    this.open = true;
+  }
 
   ngOnInit(): void {
     this.getCustomerById(this.id);
@@ -141,6 +162,11 @@ export default class ViewOneCustomerComponent implements OnInit {
     this.selectedMonth.set(month);
     this.offset.set(0);
     this.getTransactionsByMonth(this.customer().account.id, year, month, true);
+  }
+
+  public reloadData(): void {
+    this.getCustomerById(this.id);
+    this.open = false;
   }
 
   private getCustomerById(id: string): void {

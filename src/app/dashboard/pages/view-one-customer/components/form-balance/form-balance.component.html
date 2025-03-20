@@ -1,0 +1,51 @@
+<article class="customer__container">
+  @if (type() === "credit") {
+    <h3>Agregar saldo</h3>
+  } @else {
+    <h3>Reducir saldo</h3>
+  }
+  <div class="customer__menu">
+    <form [formGroup]="customerForm" (ngSubmit)="onSubmit()">
+      <div class="form__flex">
+        <label tuiLabel class="tui-space_bottom-4">
+          <tui-input-number
+            formControlName="amount"
+            tuiTextfieldSize="m"
+            [tuiTextfieldCleaner]="true"
+            decimalSeparator=","
+            thousandSeparator="."
+            [max]="999999999"
+            [tuiTextfieldPrefix]="'USD' | tuiCurrency"
+          >
+            Monto <span>*</span>
+          </tui-input-number>
+          <tui-error
+            formControlName="amount"
+            [error]="[''] | tuiFieldError | async"
+          />
+        </label>
+      </div>
+
+      <label tuiLabel class="tui-space_bottom-4">
+        <tui-input
+          formControlName="description"
+          tuiTextfieldSize="m"
+          [tuiTextfieldCleaner]="true"
+        >
+          Descripción
+          <input tuiTextfieldLegacy type="text" [autocomplete]="false" />
+        </tui-input>
+        <tui-error
+          formControlName="description"
+          [error]="[''] | tuiFieldError | async"
+        />
+      </label>
+
+      <app-button
+        [label]="'Aceptar'"
+        [disabled]="customerForm.invalid"
+        [type]="'submit'"
+      ></app-button>
+    </form>
+  </div>
+</article>

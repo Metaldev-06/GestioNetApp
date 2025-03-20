@@ -22,9 +22,16 @@
     </div>
 
     <div class="transactions__actions">
-      <app-button [background]="'debt'" [icon]="'pi pi-money-bill'" />
-      <app-button [background]="'reduce'" [icon]="'pi pi-minus'" />
-      <app-button [background]="'add'" [icon]="'pi pi-plus'" />
+      <app-button
+        [background]="'reduce'"
+        [icon]="'pi pi-minus'"
+        (click)="showDialog(false)"
+      />
+      <app-button
+        [background]="'add'"
+        [icon]="'pi pi-plus'"
+        (click)="showDialog(true)"
+      />
     </div>
   </article>
 
@@ -68,3 +75,15 @@
     </div>
   </article>
 </section>
+
+<ng-template
+  let-observer
+  [tuiDialogOptions]="{ size: 'l' }"
+  [(tuiDialog)]="open"
+>
+  <app-form-balance
+    [customer]="customer()"
+    [type]="typeTransactions()"
+    (reloadData)="reloadData()"
+  />
+</ng-template>
