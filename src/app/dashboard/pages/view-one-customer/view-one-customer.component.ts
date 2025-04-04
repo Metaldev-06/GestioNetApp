@@ -44,20 +44,20 @@ import { TransactionsType } from '../../../core/enums/transactions-type.enum';
 @Component({
   selector: 'app-view-one-customer',
   imports: [
+    ButtonComponent,
     CurrencyPipe,
-    MonthNamePipe,
+    CustomerInfoComponent,
     DatePipe,
-    NgClass,
+    FormBalanceComponent,
     FormsModule,
+    InfiniteScrollDirective,
+    MonthNamePipe,
+    NgClass,
     ReactiveFormsModule,
-    TuiSelectModule,
     TuiDataList,
     TuiDataListWrapper,
-    InfiniteScrollDirective,
-    CustomerInfoComponent,
-    ButtonComponent,
     TuiDialog,
-    FormBalanceComponent,
+    TuiSelectModule,
   ],
   templateUrl: './view-one-customer.component.html',
   styleUrl: './view-one-customer.component.css',
@@ -157,15 +157,35 @@ export default class ViewOneCustomerComponent implements OnInit {
       });
   }
 
-  public selectMonth(month: number, year: number): void {
+  public selectMonth(
+    month: number,
+    year: number,
+    transactionMount: number,
+  ): void {
     this.selectedYear.set(year);
     this.selectedMonth.set(month);
     this.offset.set(0);
-    this.getTransactionsByMonth(this.customer().account.id, year, month, true);
+
+    if (transactionMount > 0) {
+      this.getTransactionsByMonth(
+        this.customer().account.id,
+        year,
+        month,
+        true,
+      );
+    } else {
+      this.transactions.set([]);
+    }
   }
 
   public reloadData(): void {
     this.getCustomerById(this.id);
+    this.getTransactionsByMonth(
+      this.customer().account.id,
+      this.selectedYear(),
+      this.selectedMonth(),
+      true,
+    );
     this.open = false;
   }
 

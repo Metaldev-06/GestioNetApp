@@ -38,7 +38,10 @@
   <article class="customer__transactions">
     <div class="month__transactions">
       @for (item of transactionsDate().transactions; track $index) {
-        <div class="month__item" (click)="selectMonth(item.month, item.year)">
+        <div
+          class="month__item"
+          (click)="selectMonth(item.month, item.year, item.transactionsTotal)"
+        >
           <span class="month">{{ item.month | monthName }}</span>
           <span class="transactions">{{ item.transactionsTotal }}</span>
         </div>
