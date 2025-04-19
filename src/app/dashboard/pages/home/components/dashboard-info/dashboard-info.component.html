@@ -1,21 +1,33 @@
 <article class="dashboard__info">
   <div class="info__card">
-    <h2>Saldo</h2>
+    <div class="info__card--header">
+      <h2>Saldo</h2>
+      <i class="pi pi-wallet wallet"></i>
+    </div>
     <h3>{{ customerSummary()?.total ?? 0 | currency: "ARS" }}</h3>
   </div>
 
   <div class="info__card">
-    <h2>Clientes</h2>
+    <div class="info__card--header">
+      <h2>Clientes</h2>
+      <i class="pi pi-users neutral"></i>
+    </div>
     <h3>{{ customerSummary()?.customers ?? 0 }}</h3>
   </div>
 
   <div class="info__card">
-    <h2>Positivo</h2>
+    <div class="info__card--header">
+      <h2>Positivo</h2>
+      <i class="pi pi-chart-line positive"></i>
+    </div>
     <h3>{{ customerSummary()?.balance ?? 0 | currency: "ARS" }}</h3>
   </div>
 
   <div class="info__card">
-    <h2>Negativo</h2>
+    <div class="info__card--header">
+      <h2>Negativo</h2>
+      <i class="pi pi-chart-bar negative"></i>
+    </div>
     <h3>{{ customerSummary()?.debt ?? 0 | currency: "ARS" }}</h3>
   </div>
 </article>

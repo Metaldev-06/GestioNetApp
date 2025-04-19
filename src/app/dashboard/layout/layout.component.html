@@ -48,7 +48,7 @@
 
   <header class="header">
     <div class="header__content">
-      <div class="title__header">Dashboard</div>
+      <div class="title__header">{{ pageTitle() }}</div>
       <div>
         Bienvenido, <strong>{{ user().firstName }}</strong>
       </div>
@@ -56,6 +56,10 @@
   </header>
 
   <main class="main">
-    <ng-content />
+    <div class="decorative__background">
+      <div class="decorative__background--content">
+        <ng-content />
+      </div>
+    </div>
   </main>
 </section>

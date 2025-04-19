@@ -16,6 +16,34 @@
     /* background-color: #093e7b;
     color: white; */
 
+    .info__card--header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      i {
+        font-size: 2rem;
+        font-weight: bold;
+      }
+
+      .wallet {
+        color: #2e8eff;
+      }
+
+      .neutral {
+        color: #ffa466;
+      }
+
+      .positive {
+        color: #00e6b8;
+      }
+
+      .negative {
+        color: #ff4467;
+      }
+    }
+
     h2,
     h3 {
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);

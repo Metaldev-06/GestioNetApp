@@ -18,12 +18,13 @@
   span {
     background: -webkit-linear-gradient(#71b3ff, #439bff);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: #439bff;
   }
 }
 
 .login__menu {
-  width: 100%;
+  width: 95%;
   max-width: 400px;
   background-color: #d6dae2;
   padding: 1rem;

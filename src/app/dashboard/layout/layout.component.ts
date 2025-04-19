@@ -3,11 +3,17 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
+  effect,
   inject,
   OnInit,
   signal,
 } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+  RouterLink,
+  RouterLinkActive,
+} from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { TuiDialogService } from '@taiga-ui/core';
@@ -36,8 +42,10 @@ export class LayoutComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
   private readonly dialogs = inject(TuiDialogService);
+  private readonly route = inject(ActivatedRoute);
 
   public user = signal<StoreUser>({} as StoreUser);
+  public pageTitle = signal<string>('');
 
   public menuItems: MenuItem[] = [
     {
@@ -69,7 +77,16 @@ export class LayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.user.set(this.storage.get('user')!);
+    this.pageTitle.set(this.route.children[0].snapshot.data['title']);
   }
+
+  public updateTitle = effect(() => {
+    this.router.events
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.pageTitle.set(this.route.children[0].snapshot.data['title']);
+      });
+  });
 
   logout(): void {
     this.dialogs
