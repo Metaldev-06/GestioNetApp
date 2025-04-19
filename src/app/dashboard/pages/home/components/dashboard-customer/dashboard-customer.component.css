@@ -5,6 +5,10 @@
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 10px;
 
+    @media (max-width: 981px) {
+      grid-template-columns: 1fr 1fr;
+    }
+
     .customers__card {
       width: 100%;
       height: 200px;
