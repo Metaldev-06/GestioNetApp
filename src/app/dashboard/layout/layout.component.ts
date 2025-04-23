@@ -4,6 +4,7 @@ import {
   Component,
   DestroyRef,
   effect,
+  HostListener,
   inject,
   OnInit,
   signal,
@@ -47,6 +48,9 @@ export class LayoutComponent implements OnInit {
   public user = signal<StoreUser>({} as StoreUser);
   public pageTitle = signal<string>('');
 
+  public isSidebarCollapsed = signal<boolean>(false);
+  public isMobile = signal<boolean>(false);
+
   public menuItems: MenuItem[] = [
     {
       title: 'crear cliente',
@@ -75,9 +79,26 @@ export class LayoutComponent implements OnInit {
     },
   ];
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkScreenWidth();
+  }
+
   ngOnInit(): void {
     this.user.set(this.storage.get('user')!);
     this.pageTitle.set(this.route.children[0].snapshot.data['title']);
+    this.checkScreenWidth();
+  }
+
+  checkScreenWidth(): void {
+    this.isMobile.set(window.innerWidth <= 781); // Ajusta el ancho según tu breakpoint
+    if (!this.isMobile) {
+      this.isSidebarCollapsed.set(false); // Asegura que la sidebar esté visible en desktop
+    }
+  }
+
+  toggleSidebar(): void {
+    this.isSidebarCollapsed.set(!this.isSidebarCollapsed());
   }
 
   public updateTitle = effect(() => {

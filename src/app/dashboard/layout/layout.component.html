@@ -48,6 +48,9 @@
 
   <header class="header">
     <div class="header__content">
+      <button class="hamburger-button" (click)="toggleSidebar()">
+        <i class="pi pi-bars"></i>
+      </button>
       <div class="title__header">{{ pageTitle() }}</div>
       <div>
         Bienvenido, <strong>{{ user().firstName }}</strong>
