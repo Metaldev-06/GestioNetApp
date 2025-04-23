@@ -36,6 +36,12 @@ span {
   }
 }
 
+@media (max-width: 600px) {
+  .form__flex {
+    flex-direction: column;
+  }
+}
+
 h1 {
   font-size: 1.5rem;
   font-weight: bold;

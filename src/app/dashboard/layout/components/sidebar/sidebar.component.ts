@@ -3,6 +3,7 @@ import {
   Component,
   DestroyRef,
   inject,
+  output,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
@@ -30,6 +31,7 @@ export class SidebarComponent {
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
 
+  public closeSidebar = output<void>();
   public menuItems: MenuItem[] = [
     {
       title: 'crear cliente',
@@ -75,5 +77,9 @@ export class SidebarComponent {
           this.router.navigate(['/auth/login']);
         }
       });
+  }
+
+  close(): void {
+    this.closeSidebar.emit();
   }
 }

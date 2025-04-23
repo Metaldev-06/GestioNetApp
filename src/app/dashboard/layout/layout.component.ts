@@ -60,8 +60,6 @@ export class LayoutComponent implements OnInit {
   checkScreenWidth(): void {
     this.isMobile.set(window.innerWidth <= 781); // Ajusta el ancho según tu breakpoint
 
-    console.log(this.isMobile());
-
     if (!this.isMobile()) {
       this.isSidebarCollapsed.set(false); // Asegura que la sidebar esté visible en desktop
       this.open.set(false); // Asegura que el popup esté cerrado en desktop
@@ -70,6 +68,7 @@ export class LayoutComponent implements OnInit {
 
   toggleSidebar(): void {
     this.isSidebarCollapsed.set(!this.isSidebarCollapsed());
+    this.open.set(false);
   }
 
   public updateTitle = effect(() => {

@@ -1,61 +1,18 @@
 <section class="layout__container">
-  <!-- <aside class="sidebar">
-    <div class="sidebar__content">
-      <div class="sidebar__logo" [routerLink]="''">Gestio <span>Net</span></div>
-
-      <div class="sidebar__menu">
-        <div class="individual__menu">
-          <a
-            [routerLink]="''"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-          >
-            <i class="pi pi-home"></i> Dashboard</a
-          >
-        </div>
-
-        <div class="group__menu--content">
-          <div class="group__menu--title">Contenido</div>
-
-          <div class="group__menu--content">
-            @for (item of menuItems; track $index) {
-              <a
-                [routerLink]="item.link"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-              >
-                <i [class]="item.icon"></i> {{ item.title | titlecase }}</a
-              >
-            }
-          </div>
-        </div>
-
-        <div class="individual__menu">
-          <div class="group__menu--title">Configuración</div>
-          <a [routerLink]="'/settings'" routerLinkActive="active">
-            <i class="pi pi-cog"></i> Cuenta</a
-          >
-        </div>
-      </div>
-
-      <div class="sidebar__footer">
-        <button (click)="logout()">
-          <i class="pi pi-sign-out"></i> Cerrar Sesión
-        </button>
-      </div>
-    </div>
-  </aside> -->
-
   @if (!isMobile()) {
     <app-sidebar class="sidebar" />
   }
 
   <header class="header">
     <div class="header__content">
-      <button class="hamburger-button" (click)="open.set(true)">
-        <i class="pi pi-bars"></i>
-      </button>
-      <div class="title__header">{{ pageTitle() }}</div>
+      <div class="header__content--left">
+        <button class="hamburger__button" (click)="open.set(true)">
+          <i class="pi pi-bars"></i>
+        </button>
+
+        <div class="title__header">{{ pageTitle() }}</div>
+      </div>
+
       <div>
         Bienvenido, <strong>{{ user().firstName }}</strong>
       </div>
@@ -80,7 +37,7 @@
 >
   <div class="sidebar__mobile">
     @if (isMobile()) {
-      <app-sidebar class="sidebar__mobile" />
+      <app-sidebar class="sidebar__mobile" (closeSidebar)="toggleSidebar()" />
     }
   </div>
 </tui-drawer>
