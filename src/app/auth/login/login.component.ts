@@ -3,6 +3,7 @@ import {
   Component,
   DestroyRef,
   inject,
+  signal,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -49,6 +50,7 @@ export default class LoginComponent {
   private readonly router = inject(Router);
 
   public loginForm!: FormGroup;
+  public typeInput = signal<string>('password');
 
   ngOnInit(): void {
     this.loginForm = this.initLoginForm();
@@ -99,5 +101,11 @@ export default class LoginComponent {
           console.log(error);
         },
       });
+  }
+
+  changeTypePassword() {
+    this.typeInput.update((prev) =>
+      prev === 'password' ? 'text' : 'password',
+    );
   }
 }

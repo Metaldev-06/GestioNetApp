@@ -35,7 +35,7 @@
           <input
             autocomplete="password"
             tuiTextfieldLegacy
-            type="password"
+            [type]="typeInput()"
             [autocomplete]="false"
           />
         </tui-input>
@@ -44,6 +44,9 @@
           [error]="[''] | tuiFieldError | async"
         />
       </label>
+      <p class="show__password" (click)="changeTypePassword()">
+        Mostrar contraseña
+      </p>
 
       <button type="submit">Acceder</button>
     </form>

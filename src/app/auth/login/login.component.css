@@ -76,3 +76,13 @@ button {
     transform: scale(0.98);
   }
 }
+
+.show__password {
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

@@ -46,19 +46,23 @@
       (scrolled)="onScroll()"
       [scrollWindow]="false"
     >
-      @for (customer of customers(); track $index) {
-        <div class="customer__item">
-          <div class="customer__name">
-            {{ customer.name }}
+      @if (!customersRx.isLoading()) {
+        @for (customer of customers(); track $index) {
+          <div class="customer__item">
+            <div class="customer__name">
+              {{ customer.name }}
+            </div>
+            <div class="customer__actions">
+              <button [routerLink]="['/view-customers/', customer.id]">
+                Ver Cliente
+              </button>
+            </div>
           </div>
-          <div class="customer__actions">
-            <button [routerLink]="['/view-customers/', customer.id]">
-              Ver Cliente
-            </button>
-          </div>
-        </div>
-      } @empty {
-        <h2>No se encontraron resultados con: "{{ lastSearchTerm() }}"</h2>
+        } @empty {
+          <h2>No se encontraron resultados con: "{{ lastSearchTerm() }}"</h2>
+        }
+      } @else {
+        <h2>Cargando Clientes</h2>
       }
     </div>
   </article>
