@@ -1,5 +1,5 @@
 <section class="layout__container">
-  <aside class="sidebar">
+  <!-- <aside class="sidebar">
     <div class="sidebar__content">
       <div class="sidebar__logo" [routerLink]="''">Gestio <span>Net</span></div>
 
@@ -44,11 +44,15 @@
         </button>
       </div>
     </div>
-  </aside>
+  </aside> -->
+
+  @if (!isMobile()) {
+    <app-sidebar class="sidebar" />
+  }
 
   <header class="header">
     <div class="header__content">
-      <button class="hamburger-button" (click)="toggleSidebar()">
+      <button class="hamburger-button" (click)="open.set(true)">
         <i class="pi pi-bars"></i>
       </button>
       <div class="title__header">{{ pageTitle() }}</div>
@@ -66,3 +70,17 @@
     </div>
   </main>
 </section>
+
+<tui-drawer
+  *tuiPopup="open()"
+  direction="left"
+  class="drawer"
+  [overlay]="true"
+  (click.self)="onClose()"
+>
+  <div class="sidebar__mobile">
+    @if (isMobile()) {
+      <app-sidebar class="sidebar__mobile" />
+    }
+  </div>
+</tui-drawer>

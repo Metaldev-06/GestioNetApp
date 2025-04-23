@@ -1,4 +1,3 @@
-import { TitleCasePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -9,20 +8,15 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import {
-  ActivatedRoute,
-  Router,
-  RouterLink,
-  RouterLinkActive,
-} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { TuiDialogService } from '@taiga-ui/core';
-import { TUI_CONFIRM } from '@taiga-ui/kit';
+import { TuiDialogService, TuiPopup } from '@taiga-ui/core';
 
 import { StorageService } from '../../core/services/storage.service';
 import { StoreUser } from '../../core/interfaces/store-user.interface';
-import { AuthenticatedUserService } from '../../core/services/authenticated-user.service';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { TuiDrawer } from '@taiga-ui/kit';
 
 interface MenuItem {
   title: string;
@@ -32,52 +26,25 @@ interface MenuItem {
 
 @Component({
   selector: 'app-layout',
-  imports: [TitleCasePipe, RouterLink, RouterLinkActive],
+  imports: [SidebarComponent, TuiPopup, TuiDrawer],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutComponent implements OnInit {
   private readonly storage = inject(StorageService);
-  private readonly authService = inject(AuthenticatedUserService);
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
   private readonly dialogs = inject(TuiDialogService);
   private readonly route = inject(ActivatedRoute);
+
+  protected readonly open = signal(false);
 
   public user = signal<StoreUser>({} as StoreUser);
   public pageTitle = signal<string>('');
 
   public isSidebarCollapsed = signal<boolean>(false);
   public isMobile = signal<boolean>(false);
-
-  public menuItems: MenuItem[] = [
-    {
-      title: 'crear cliente',
-      icon: 'pi pi-user-plus',
-      link: '/create-customer',
-    },
-    {
-      title: 'ver clientes',
-      icon: 'pi pi-users',
-      link: '/view-customers',
-    },
-    {
-      title: 'modificar balance',
-      icon: 'pi pi-money-bill',
-      link: '/modify-balance',
-    },
-    {
-      title: 'reportes',
-      icon: 'pi pi-chart-bar',
-      link: '/create-client',
-    },
-    {
-      title: 'historial',
-      icon: 'pi pi-history',
-      link: '/create-client',
-    },
-  ];
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
@@ -92,8 +59,12 @@ export class LayoutComponent implements OnInit {
 
   checkScreenWidth(): void {
     this.isMobile.set(window.innerWidth <= 781); // Ajusta el ancho según tu breakpoint
-    if (!this.isMobile) {
+
+    console.log(this.isMobile());
+
+    if (!this.isMobile()) {
       this.isSidebarCollapsed.set(false); // Asegura que la sidebar esté visible en desktop
+      this.open.set(false); // Asegura que el popup esté cerrado en desktop
     }
   }
 
@@ -109,22 +80,7 @@ export class LayoutComponent implements OnInit {
       });
   });
 
-  logout(): void {
-    this.dialogs
-      .open<boolean>(TUI_CONFIRM, {
-        label: '¿Estás seguro de que quieres cerrar sesión?',
-        data: {
-          content: 'Esta acción no se puede deshacer',
-          yes: 'Salir',
-          no: 'Cancelar',
-        },
-      })
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((response) => {
-        if (response) {
-          this.authService.logout();
-          this.router.navigate(['/auth/login']);
-        }
-      });
+  public onClose(): void {
+    this.open.set(false);
   }
 }
